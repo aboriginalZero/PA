@@ -37,6 +37,9 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
+static int cmd_si(char *args);
+static int cmd_info(char *args);
+static int cmd_x(char *args);
 
 static struct {
   char *name;
@@ -48,6 +51,9 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
+  { "si","step by step",cmd_si},
+  { "info","print the states of register",cmd_info},
+  { "x","scanning memory",cmd_x},
 
 };
 
@@ -76,6 +82,57 @@ static int cmd_help(char *args) {
   return 0;
 }
 
+static int cmd_si(char *args){
+  char *temp=strtok(NULL," ");
+  int n;
+  sscanf(temp,"%d",&n);
+  for(int i=0;i<n;i++){
+    cpu_exec(1);
+  }
+  return 1;
+}
+
+void allRegisters(){
+  for(int i=0;i<8;i++){
+		printf("%s: %x \t",regsl[i],cpu.gpr[i]._32);
+		if(i%2==0)
+			printf("\n");
+	}
+	for(int i=0;i<8;i++){
+		printf("%s: %x \t",regsw[i],cpu.gpr[i]._16);
+		if(i%2==0)
+			printf("\n");
+	}
+	for(int i=0,j=0;i<4;i++,j++){
+		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[0]);
+		j++;
+		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[1]);
+		printf("\n");	
+	}
+}
+static int cmd_info(char *args){
+	char *temp=strtok(NULL," ");
+	if(strcmp(temp,"r")==0){
+		allRegisters();
+	}
+	return 1;
+}
+
+static int cmd_x(char *args){
+	char *temp=strtok(NULL," ");
+	char *temp_2=strtok(NULL," ");
+	int n;
+	vaddr_t addr;
+	sscanf(temp,"%d",&n);
+	sscanf(temp_2,"%x",&addr);
+	printf("0x%x:",addr);
+  for(int i=0;i<n;i++) {
+    printf("%x ",vaddr_read(addr,4));
+    addr+=4;
+  }
+  printf("\n");
+  return 1;
+}
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
