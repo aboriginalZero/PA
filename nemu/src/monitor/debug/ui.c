@@ -87,7 +87,7 @@ static int cmd_si(char *args){
   int n;
   sscanf(temp,"%d",&n);
   for(int i=0;i<n;i++){
-    cpu_exec(1);
+    cpu_exec(1);//这边的参数为1代表只执行一次
   }
   return 1;
 }
@@ -119,6 +119,8 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
+/*函数返回的是一个十六进制的数
+输入是一个整数（只能是1或2或4）、一个十六进制地址*/
 	char *temp=strtok(NULL," ");
 	char *temp_2=strtok(NULL," ");
 	int n;
