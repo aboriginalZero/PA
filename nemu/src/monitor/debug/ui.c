@@ -132,7 +132,7 @@ static int cmd_x(char *args){
 	vaddr_t addr;
 	sscanf(temp,"%d",&n);
 	sscanf(temp_2,"%x",&addr);
-	printf("0x%x:\n",addr);
+	printf("0x%x (the origin address)\n",addr);
   for(int i=0;i<n;i++) {
     printf("0x%x\n",vaddr_read(addr,4));
     addr+=4;
