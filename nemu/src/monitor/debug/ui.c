@@ -83,13 +83,22 @@ static int cmd_help(char *args) {
 }
 
 static int cmd_si(char *args){
-  char *temp=strtok(NULL," ");
-  int n;
-  sscanf(temp,"%d",&n);
-  for(int i=0;i<n;i++){
+  if(args==NULL){
     cpu_exec(1);//这边的参数为1代表只执行一次
+  }else{
+    char *temp=strtok(NULL," ");
+    int n;
+    sscanf(temp,"%d",&n);
+    if(n<-1){
+      printf("The param you input is incorrect!");
+      return 0;
+    }else if(n==0){
+      cpu_exec(1);
+    }else{
+      cpu_exec(n);
+    }
   }
-  return 1;
+  return 0;
 }
 
 void allRegisters(){
