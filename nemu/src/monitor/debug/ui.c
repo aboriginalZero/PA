@@ -90,7 +90,7 @@ static int cmd_si(char *args){
     int n;
     sscanf(temp,"%d",&n);
     if(n<-1){
-      printf("The param you input is incorrect!");
+      printf("The param you input is incorrect!\n");
       return 0;
     }else if(n==0){
       cpu_exec(1);
