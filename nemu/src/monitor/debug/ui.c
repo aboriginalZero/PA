@@ -103,19 +103,19 @@ static int cmd_si(char *args){
 
 void allRegisters(){
   for(int i=0;i<8;i++){
-		printf("%s:\t0x%10x\t",regsl[i],cpu.gpr[i]._32);
+		printf("%s:\t0x%8x\t",regsl[i],cpu.gpr[i]._32);
 		if(i%2==1)
 			printf("\n");
 	}
 	for(int i=0;i<8;i++){
-		printf("%s: %x \t",regsw[i],cpu.gpr[i]._16);
+		printf("%s:\t0x%8x\t",regsw[i],cpu.gpr[i]._16);
 		if(i%2==1)
 			printf("\n");
 	}
 	for(int i=0,j=0;i<4;i++,j++){
-		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[0]);
+		printf("%s:\t0x%8x\t",regsb[j],cpu.gpr[i]._8[0]);
 		j++;
-		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[1]);
+		printf("%s:\t0x%8x\t",regsb[j],cpu.gpr[i]._8[1]);
 		printf("\n");	
 	}
 }
