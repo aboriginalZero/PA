@@ -101,49 +101,43 @@ static int cmd_si(char *args){
   return 0;
 }
 
-void allRegisters(){
-  printf("The following are all hexadecimal(0x)\n");
-  for(int i=0;i<8;i++){
-		printf("%s:\t%8x\t",regsl[i],cpu.gpr[i]._32);
-		if(i%2==1)
-			printf("\n");
-	}
-	for(int i=0;i<8;i++){
-		printf("%s:\t%8x\t",regsw[i],cpu.gpr[i]._16);
-		if(i%2==1)
-			printf("\n");
-	}
-	for(int i=0,j=0;i<4;i++,j++){
-		printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[0]);
-		j++;
-		printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[1]);
-		printf("\n");	
-	}
-}
 static int cmd_info(char *args){
 	char *temp=strtok(NULL," ");
 	if(strcmp(temp,"r")==0){
-		allRegisters();
+		printf("The following are all hexadecimal(0x)\n");
+    for(int i=0;i<8;i++){
+      printf("%s:\t%8x\t",regsl[i],cpu.gpr[i]._32);
+      if(i%2==1)
+        printf("\n");
+    }
+    for(int i=0;i<8;i++){
+      printf("%s:\t%8x\t",regsw[i],cpu.gpr[i]._16);
+      if(i%2==1)
+        printf("\n");
+    }
+    for(int i=0,j=0;i<4;i++,j++){
+      printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[0]);
+      j++;
+      printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[1]);
+      printf("\n");	
+    }
 	}
-	return 1;
+	return 0;
 }
 
 static int cmd_x(char *args){
-/*函数返回的是一个十六进制的数
-输入是一个整数（只能是1或2或4）、一个十六进制地址*/
 	char *temp=strtok(NULL," ");
 	char *temp_2=strtok(NULL," ");
 	int n;
 	vaddr_t addr;
 	sscanf(temp,"%d",&n);
 	sscanf(temp_2,"%x",&addr);
-	printf("0x%x:",addr);
+	printf("0x%x:\n",addr);
   for(int i=0;i<n;i++) {
-    printf("%x ",vaddr_read(addr,4));
+    printf("0x%x\n",vaddr_read(addr,4));
     addr+=4;
   }
-  printf("\n");
-  return 1;
+  return 0;
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
