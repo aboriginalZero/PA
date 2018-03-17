@@ -109,14 +109,14 @@ void allRegisters(){
 			printf("\n");
 	}
 	for(int i=0;i<8;i++){
-		printf("%s:\t%4x\t",regsw[i],cpu.gpr[i]._16);
+		printf("%s:\t\t%4x\t",regsw[i],cpu.gpr[i]._16);
 		if(i%2==1)
 			printf("\n");
 	}
 	for(int i=0,j=0;i<4;i++,j++){
-		printf("%s:\t%2x\t",regsb[j],cpu.gpr[i]._8[0]);
+		printf("%s:\t\t%2x\t",regsb[j],cpu.gpr[i]._8[0]);
 		j++;
-		printf("%s:\t%2x\t",regsb[j],cpu.gpr[i]._8[1]);
+		printf("%s:\t\t%2x\t",regsb[j],cpu.gpr[i]._8[1]);
 		printf("\n");	
 	}
 }
