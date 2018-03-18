@@ -102,9 +102,9 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-	char *temp=strtok(NULL," ");
-	if(strcmp(temp,"r")==0){
-		printf("The following are all hexadecimal(0x)\n");
+    char *temp=strtok(NULL," ");
+    if(strcmp(temp,"r")==0){
+      printf("The following are all hexadecimal(0x)\n");
     for(int i=0;i<8;i++){
       printf("%s:\t%8x\t",regsl[i],cpu.gpr[i]._32);
       if(i%2==1)
