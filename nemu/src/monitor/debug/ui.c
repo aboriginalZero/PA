@@ -128,10 +128,12 @@ static int cmd_x(char *args){
 	sscanf(temp,"%d",&n);
 	sscanf(temp_2,"%x",&addr);
 	printf("0x%x:",addr);
-  for(int i=0;i<n;i++) {
-    printf("%x ",vaddr_read(addr,4));
-    addr+=4;
-  }
+  printf("Address                 Big-Endian      Little-Endian\n");
+  for(int i=0;i<n;i++)
+        {
+                printf("0x%08x+<%d>             0x%08x  %02x %02x %02x %02x\n",addr,i*4,vaddr_read(addr+i*4,4),vaddr_read(addr+i*4,1),vaddr_read(addr+i*4+1,1),vaddr_read(addr+i*4+2,1),vaddr_read(addr+i*4+3,1));
+
+        }
   printf("\n");
   return 1;
 }
