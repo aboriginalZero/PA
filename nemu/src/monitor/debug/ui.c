@@ -83,39 +83,46 @@ static int cmd_help(char *args) {
 }
 
 static int cmd_si(char *args){
-  char *temp=strtok(NULL," ");
-  int n;
-  sscanf(temp,"%d",&n);
-  for(int i=0;i<n;i++){
+  if(args==NULL){
     cpu_exec(1);//这边的参数为1代表只执行一次
+  }else{
+    char *temp=strtok(NULL," ");
+    int n;
+    sscanf(temp,"%d",&n);
+    if(n<-1){
+      printf("The param you input is incorrect!\n");
+      return 0;
+    }else if(n==0){
+      cpu_exec(1);
+    }else{
+      cpu_exec(n);
+    }
   }
-  return 1;
+  return 0;
 }
 
-void allRegisters(){
-  for(int i=0;i<8;i++){
-		printf("%s: %x \t",regsl[i],cpu.gpr[i]._32);
-		if(i%2==0)
-			printf("\n");
-	}
-	for(int i=0;i<8;i++){
-		printf("%s: %x \t",regsw[i],cpu.gpr[i]._16);
-		if(i%2==0)
-			printf("\n");
-	}
-	for(int i=0,j=0;i<4;i++,j++){
-		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[0]);
-		j++;
-		printf("%s: %x \t",regsb[j],cpu.gpr[i]._8[1]);
-		printf("\n");	
-	}
-}
 static int cmd_info(char *args){
 	char *temp=strtok(NULL," ");
 	if(strcmp(temp,"r")==0){
-		allRegisters();
+		printf("The following are all hexadecimal(0x)\n");
+    for(int i=0;i<8;i++){
+      printf("%s:\t%8x\t",regsl[i],cpu.gpr[i]._32);
+      if(i%2==1)
+        printf("\n");
+    }
+    for(int i=0;i<8;i++){
+      printf("%s:\t%8x\t",regsw[i],cpu.gpr[i]._16);
+      if(i%2==1)
+        printf("\n");
+    }
+    for(int i=0,j=0;i<4;i++,j++){
+      printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[0]);
+      j++;
+      printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[1]);
+      printf("\n");	
+    }
 	}
-	return 1;
+	return 0;
 }
 
 static int cmd_x(char *args){
@@ -131,8 +138,7 @@ static int cmd_x(char *args){
     addr+i*4,vaddr_read(addr+i*4,4),vaddr_read(addr+i*4,1),
     vaddr_read(addr+i*4+1,1),vaddr_read(addr+i*4+2,1),vaddr_read(addr+i*4+3,1));
   }
-  printf("\n");
-  return 1;
+  return 0;
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
