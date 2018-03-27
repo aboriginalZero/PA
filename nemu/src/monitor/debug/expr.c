@@ -221,9 +221,9 @@ int eval(int p,int q){
     if(tokens[p].type==TK_NUM_10){
       sscanf(tokens[p].str,"%d",&sum);	
     }else if(tokens[p].type==TK_NUM_16){
-			sscanf(tokens[p].str,"0x%d",&sum);		
+			sscanf(tokens[p].str,"0x%x",&sum);		
 		}else if(tokens[p].type==TK_NUM_8){
-			sscanf(tokens[p].str,"0%d",&sum);		
+			sscanf(tokens[p].str,"0%o",&sum);		
 		}else if(tokens[p].type=='$'){
 			for (int i=0;i<8;i++){
         if (strcmp(tokens[p+1].str,regsl[i])==0){
