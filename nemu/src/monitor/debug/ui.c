@@ -146,6 +146,7 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
   bool *flag=false;
   int result=0;
+  printf("~~~~~\n");
   result=expr(args,flag);
   if(!flag)
     return -99999; 
