@@ -246,6 +246,6 @@ uint32_t expr(char *e, bool *success) {
 
 	int result;
 	result=eval(0,nr_token-1);
-	printf("%d\n",result);
+	printf("result=%d\n",result);
 	return result;
 }
