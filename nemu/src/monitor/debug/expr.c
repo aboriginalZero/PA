@@ -210,7 +210,9 @@ int eval(int p,int q){
 		op=searchDominantOperator(p,q);
 		printf("op.pos:%d\n",op.pos);
 		val_1=eval(p,op.pos-1);
+		printf("val_1:%d\n",val_1);
 		val_2=eval(op.pos+1,q);
+		printf("val_2:%d\n",val_2);
 		switch(op.type){
 			case '+' : 
 				return val_1+val_2;
