@@ -35,8 +35,6 @@ static struct rule {
 	{"%",'%'},
 	{"0[0-7]{1,8}",TK_NUM_8},
   {"0x[0-9a-fA-F]{1,8}",TK_NUM_16},
-  {"<",'<'},
-  {">",'>'},
 	{"\\$",'$'},
 	{"&&",'&'},
 	{"\\|\\|",'|'},
@@ -127,10 +125,6 @@ static bool make_token(char *e) {
 						for (int j=0;j<substr_len;j++)
               tokens[nr_token].str[j]=substr_start[j];
 						break;
-					case '<':
-            tokens[nr_token++].type='<';break;
-					case '>':
-            tokens[nr_token++].type='>';break;
 					case '$':
             tokens[nr_token++].type='$';break;
 					case '&':
