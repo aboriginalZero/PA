@@ -146,10 +146,8 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
   char *temp=strtok(NULL," ");
   bool *flag=false;
-  int result=0;
   // printf("%s",temp);
-  result=expr(temp,flag);
-  return 0;
+  return expr(temp,flag);
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {

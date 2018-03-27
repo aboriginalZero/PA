@@ -7,9 +7,9 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ=255,TK_FEQ=254,TK_LMOVE=253,TK_RMOVE=252,
-  TK_NUM_16=251,TK_NUM_10=250,TK_LESS_AND_EQUAL=249,TK_GREATER_AND_EQUAL=248,
-  TK_LESS=247,TK_GREATER=246
+  TK_NOTYPE = 256, TK_EQ=255,TK_FEQ=254,
+  TK_NUM_16=253,TK_NUM_8=252,TK_NUM_10=251,TK_REG=250,
+	TK_NAG=249,DEREF=248,
   /* TODO: Add more token types */
 
 };
@@ -30,17 +30,18 @@ static struct rule {
   {"-",'-'},
   {"\\*",'*'},
   {"/",'/'},
-	{"[1-9]{1,10}",TK_NUM_10},
 	{"\\(",'('},
   {"\\)",')'},
-  // {"<<",TK_LMOVE},
-  // {">>",TK_RMOVE},
-  // {"0x[0-9a-fA-F]{1,8}",TK_NUM_16},
-  // {"<=",TK_LESS_AND_EQUAL},
-  // {">=",TK_GREATER_AND_EQUAL},
-  // {"<",TK_LESS},
-  // {">",TK_GREATER}
-  // {"=",'='},
+	{"%",'%'},
+	{"0[0-7]{1,8}",TK_NUM_8},
+  {"0x[0-9a-fA-F]{1,8}",TK_NUM_16},
+  {"<",'<'},
+  {">",'>'},
+	{"\\$",'$'},
+	{"&&",'&'},
+	{"\\|\\|",'|'},
+	{"[a-z]{1,10}",TK_REG},
+	{"[0-9]{1,10}",TK_NUM_10},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -114,12 +115,40 @@ static bool make_token(char *e) {
             tokens[nr_token++].type='(';break;
 					case ')':
             tokens[nr_token++].type=')';break;
+					case '%':
+            tokens[nr_token++].type='%';break;
+					case TK_NUM_8:
+            tokens[nr_token++].type=TK_NUM_8;
+						for (int j=0;j<substr_len;j++)
+              tokens[nr_token].str[j]=substr_start[j];
+						break;
+					case TK_NUM_16:
+            tokens[nr_token++].type=TK_NUM_16;
+						for (int j=0;j<substr_len;j++)
+              tokens[nr_token].str[j]=substr_start[j];
+						break;
+					case '<':
+            tokens[nr_token++].type='<';break;
+					case '>':
+            tokens[nr_token++].type='>';break;
+					case '$':
+            tokens[nr_token++].type='$';break;
+					case '&':
+            tokens[nr_token++].type='&';break;
+					case '|':
+            tokens[nr_token++].type='|';break;
+					case TK_REG:
+            tokens[nr_token++].type=TK_REG;
+						for (int j=0;j<substr_len;j++)
+              tokens[nr_token].str[j]=substr_start[j];
+						break;	
 					case TK_NUM_10:
             tokens[nr_token].type=TK_NUM_10;
 						for(int j=0;j<substr_len;j++)
 							tokens[nr_token].str[j]=substr_start[j];
 						nr_token++;
 						break;
+					
           default: TODO();
         }
         break;
@@ -163,7 +192,7 @@ typedef struct op{
 }Op;
 Op searchDominantOperator(int p,int q){
 	Op op;
-	op.pos=0;op.type=0;
+	op.pos=-1;op.type=-1;
 	for(int cnt=0,i=p;i<=q;i++){
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
@@ -194,15 +223,21 @@ int eval(int p,int q){
     assert(0);
   }
 	else if(p==q){
+		int sum=0;
     if(tokens[p].type==TK_NUM_10){
-      int sum=0;
-			// printf("tokens[p].str:%s\n",tokens[p].str);
       sscanf(tokens[p].str,"%d",&sum);	
-			// printf("sum:%d\n",sum);
-      return sum;
-    }
-    printf("Bad expression_2!\n");
-    assert(0);
+    }else if(tokens[p].type==TK_NUM_16){
+			sscanf(tokens[p].str,"0x%d",&sum);		
+		}else if(tokens[p].type==TK_NUM_8){
+			sscanf(tokens[p].str,"0%d",&sum);		
+		}else if(tokens[p].type=='$'){
+			for (int i=0;i<8;i++){
+        if (strcmp(tokens[p+1].str,regsl[i])==0){
+					sum=cpu.gpr[i]._32;
+				} 
+      }
+		}
+		return sum;
   }
 	else if(check_parentheses(p,q)==true){
     return eval(p+1,q-1);
@@ -210,9 +245,12 @@ int eval(int p,int q){
 	else{
 		int val_1,val_2;
 		Op op;
-		// printf("lalala!\n");
 		op=searchDominantOperator(p,q);
 		printf("op.pos:%d\n",op.pos);
+		if(op.pos==-1){
+			if (tokens[p].type==TK_NAG) return -1*eval(p+1,q);
+      if (tokens[p].type==DEREF)  return vaddr_read(eval(p+1,q),4);
+		}
 		val_1=eval(p,op.pos-1);
 		// printf("val_1:%d\n",val_1);
 		val_2=eval(op.pos+1,q);
@@ -230,17 +268,41 @@ int eval(int p,int q){
 				return val_1==val_2;
       case TK_FEQ : 
 				return val_1!=val_2;
+			case '&' : 
+				return val_1&&val_2;
+			case '|' : 
+				return val_1||val_2;
+			case '<' : 
+				return val_1<val_2;
+			case '>' : 
+				return val_1>val_2;
       default:assert(0);
 		}
   }
+}
+
+bool judge(int x){
+	if(tokens[x].type!='+'||tokens[x].type!='-'||tokens[x].type!='*'
+	||tokens[x].type!='/'||tokens[x].type!='('||tokens[x].type!='&'
+	||tokens[x].type!='|'||tokens[x].type!=TK_NAG||tokens[x].type!=DEREF)
+		return true;
+	return false;	
 }
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-  }
-
+  }else{
+		for(int i=0;i<nr_token;i++){
+			if(tokens[i].type=='-'&&(i==0||judge(i-1))){
+				tokens[i].type=TK_NAG;
+			}
+			else if(tokens[i].type=='*'&&(i==0||judge(i-1))){
+				tokens[i].type=DEREF;
+			}
+		}
+	}
 	int result;
 	result=eval(0,nr_token-1);
 	printf("result=%d\n",result);
