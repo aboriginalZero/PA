@@ -110,12 +110,15 @@ static bool make_token(char *e) {
             tokens[nr_token++].type='*';break;
 					case '/':
             tokens[nr_token++].type='/';break;
-					case TK_NUM_10:
-            tokens[nr_token++].type=TK_NUM_10;break;
 					case '(':
             tokens[nr_token++].type='(';break;
 					case ')':
             tokens[nr_token++].type=')';break;
+					case TK_NUM_10:
+            tokens[nr_token++].type=TK_NUM_10;
+						for(int j=0;j<substr_len;j++)
+							tokens[nr_token].str[j]=substr_start[j];
+						break;
           default: TODO();
         }
         break;
