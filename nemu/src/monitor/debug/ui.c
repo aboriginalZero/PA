@@ -145,8 +145,11 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   bool *flag=false;
-  expr(args,flag);
-  return 1;
+  int result=0;
+  result=expr(args,flag);
+  if(!flag)
+    return -99999; 
+  return result;
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
