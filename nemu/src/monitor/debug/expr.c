@@ -206,8 +206,9 @@ int eval(int p,int q){
 	else{
 		int val_1,val_2;
 		Op op;
-		printf("lalala!\n");
+		// printf("lalala!\n");
 		op=searchDominantOperator(p,q);
+		printf("op.pos:%d\n",op.pos);
 		val_1=eval(p,op.pos-1);
 		val_2=eval(op.pos+1,q);
 		switch(op.type){
