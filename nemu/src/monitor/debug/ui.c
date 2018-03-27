@@ -149,9 +149,7 @@ static int cmd_p(char *args){
   int result=0;
   // printf("%s",temp);
   result=expr(temp,flag);
-  if(!flag)
-    return -99999; 
-  return result;
+  return 0;
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {

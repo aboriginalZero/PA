@@ -30,16 +30,16 @@ static struct rule {
   {"-",'-'},
   {"\\*",'*'},
   {"/",'/'},
+	{"[1-9]{1,10}",TK_NUM_10},
+	{"\\(",'('},
+  {"\\)",')'},
   // {"<<",TK_LMOVE},
   // {">>",TK_RMOVE},
   // {"0x[0-9a-fA-F]{1,8}",TK_NUM_16},
-  {"[1-9]{1,10}",TK_NUM_10},
   // {"<=",TK_LESS_AND_EQUAL},
   // {">=",TK_GREATER_AND_EQUAL},
   // {"<",TK_LESS},
   // {">",TK_GREATER}
-  {"\\(",'('},
-  {"\\)",')'},
   // {"=",'='},
 };
 
@@ -161,13 +161,10 @@ typedef struct op{
 	int pos;
 	int type;	
 }Op;
-
 Op searchDominantOperator(int p,int q){
 	Op op;
-	op.pos=0;
-	op.type=0;
+	op.pos=0;op.type=0;
 	for(int cnt=0,i=p;i<=q;i++){
- 		// printf("tokens[i].type:%c\n",tokens[i].type);
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
 		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
