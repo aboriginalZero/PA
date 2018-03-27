@@ -167,7 +167,7 @@ Op searchDominantOperator(int p,int q){
 	op.pos=0;
 	op.type=0;
 	for(int cnt=0,i=p;i<=q;i++){
- 		printf("tokens[i].type:%c\n",tokens[i].type);
+ 		// printf("tokens[i].type:%c\n",tokens[i].type);
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
 		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
@@ -199,9 +199,9 @@ int eval(int p,int q){
 	else if(p==q){
     if(tokens[p].type==TK_NUM_10){
       int sum=0;
-			printf("tokens[p].str:%s\n",tokens[p].str);
+			// printf("tokens[p].str:%s\n",tokens[p].str);
       sscanf(tokens[p].str,"%d",&sum);	
-			printf("sum:%d\n",sum);
+			// printf("sum:%d\n",sum);
       return sum;
     }
     printf("Bad expression_2!\n");
@@ -217,9 +217,9 @@ int eval(int p,int q){
 		op=searchDominantOperator(p,q);
 		printf("op.pos:%d\n",op.pos);
 		val_1=eval(p,op.pos-1);
-		printf("val_1:%d\n",val_1);
+		// printf("val_1:%d\n",val_1);
 		val_2=eval(op.pos+1,q);
-		printf("val_2:%d\n",val_2);
+		// printf("val_2:%d\n",val_2);
 		switch(op.type){
 			case '+' : 
 				return val_1+val_2;
@@ -244,8 +244,6 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /* TODO: Insert codes to evaluate the expression. */
-  // printf("nr_token:%d\n",nr_token);
 	int result;
 	result=eval(0,nr_token-1);
 	printf("%d\n",result);
