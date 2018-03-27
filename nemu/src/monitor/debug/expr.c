@@ -194,6 +194,7 @@ int eval(int p,int q){
 	else if(p==q){
     if(tokens[p].type==TK_NUM_10){
       int sum;
+			printf("tokens[p].str:%s\n",tokens[p].str);
       sscanf(tokens[p].str,"%d",&sum);	
 			printf("sum:%d\n",sum);
       return sum;
