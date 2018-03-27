@@ -127,7 +127,7 @@ static bool make_token(char *e) {
       return false;
     }
   }
-	printf("num:%d\n",nr_token);
+	// printf("num:%d\n",nr_token);
   return true;
 }
 
@@ -188,7 +188,7 @@ Op searchDominantOperator(int p,int q){
 
 int eval(int p,int q){
   if(p>q){
-    printf("Bad expression!\n");
+    printf("Bad expression_1!\n");
     assert(0);
   }
 	else if(p==q){
@@ -197,7 +197,7 @@ int eval(int p,int q){
       sscanf(tokens[p].str,"%d",&sum);	
       return sum;
     }
-    printf("Bad expression!\n");
+    printf("Bad expression_2!\n");
     assert(0);
   }
 	else if(check_parentheses(p,q)==true){
