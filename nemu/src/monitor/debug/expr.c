@@ -194,7 +194,7 @@ int eval(int p,int q){
   }
 	else if(p==q){
     if(tokens[p].type==TK_NUM_10){
-      int sum;
+      int sum=0;
 			printf("tokens[p].str:%s\n",tokens[p].str);
       sscanf(tokens[p].str,"%d",&sum);	
 			printf("sum:%d\n",sum);
@@ -241,6 +241,6 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  printf("nr_token:%d\n",nr_token);
+  // printf("nr_token:%d\n",nr_token);
 	return eval(0,nr_token-1);
 }
