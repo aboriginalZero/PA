@@ -163,7 +163,7 @@ Op searchDominantOperator(int p,int q){
 	op.pos=0;
 	op.type=0;
 	for(int cnt=0,i=p;i<q;i++){
- 		printf("tokens[i].type:%d\n",tokens[i].type);
+ 		printf("tokens[i].type:%c\n",tokens[i].type);
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
 		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
