@@ -246,7 +246,7 @@ int eval(int p,int q){
 		int val_1,val_2;
 		Op op;
 		op=searchDominantOperator(p,q);
-		printf("op.pos:%d\n",op.pos);
+		// printf("op.pos:%d\n",op.pos);
 		if(op.pos==-1){
 			if (tokens[p].type==TK_NAG) return -1*eval(p+1,q);
       if (tokens[p].type==DEREF)  return vaddr_read(eval(p+1,q),4);
@@ -273,9 +273,11 @@ int eval(int p,int q){
 			case '|' : 
 				return val_1||val_2;
 			case '<' : 
-				return val_1<val_2;
+				if(val_1<val_2) return 0;
+				return 1;
 			case '>' : 
-				return val_1>val_2;
+				if(val_1>val_2) return 0;
+				return 1;
       default:assert(0);
 		}
   }
