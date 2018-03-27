@@ -40,6 +40,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
+static int cmd_p(char *args);
 
 static struct {
   char *name;
@@ -54,6 +55,7 @@ static struct {
   { "si","step by step",cmd_si},
   { "info","print the states of register",cmd_info},
   { "x","scanning memory",cmd_x},
+  { "p","caculator",cmd_p},
 
 };
 
@@ -139,6 +141,12 @@ static int cmd_x(char *args){
     vaddr_read(addr+i*4+1,1),vaddr_read(addr+i*4+2,1),vaddr_read(addr+i*4+3,1));
   }
   return 0;
+}
+
+static int cmd_p(char *args){
+  bool *flag=false;
+  expr(args,flag);
+  return 1;
 }
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
