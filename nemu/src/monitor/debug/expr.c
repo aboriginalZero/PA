@@ -195,6 +195,7 @@ int eval(int p,int q){
     if(tokens[p].type==TK_NUM_10){
       int sum;
       sscanf(tokens[p].str,"%d",&sum);	
+			printf("sum:%d\n",sum);
       return sum;
     }
     printf("Bad expression_2!\n");
