@@ -242,5 +242,5 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   printf("nr_token:%d\n",nr_token);
-	return eval(1,nr_token);
+	return eval(0,nr_token);
 }
