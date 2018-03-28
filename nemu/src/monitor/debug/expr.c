@@ -237,7 +237,7 @@ int eval(int p,int q){
 		}else if(tokens[p].type=='$'){
 			printf("qqqqqq\n");
 			for (int i=0;i<8;i++){
-        if (strcmp(tokens[p].str,regsl[i])==0){
+        if (strcmp(tokens[p+1].str,regsl[i])==0){
 					sum=cpu.gpr[i]._32;
 				} 
       }
