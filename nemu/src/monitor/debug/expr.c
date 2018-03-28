@@ -116,14 +116,16 @@ static bool make_token(char *e) {
 					case '%':
             tokens[nr_token++].type='%';break;
 					case TK_NUM_8:
-            tokens[nr_token++].type=TK_NUM_8;
+            tokens[nr_token].type=TK_NUM_8;
 						for (int j=0;j<substr_len;j++)
               tokens[nr_token].str[j]=substr_start[j];
+						nr_token++;
 						break;
 					case TK_NUM_16:
-            tokens[nr_token++].type=TK_NUM_16;
+            tokens[nr_token].type=TK_NUM_16;
 						for (int j=0;j<substr_len;j++)
               tokens[nr_token].str[j]=substr_start[j];
+						nr_token++;
 						break;
 					case '$':
             tokens[nr_token++].type='$';break;
@@ -132,9 +134,10 @@ static bool make_token(char *e) {
 					case '|':
             tokens[nr_token++].type='|';break;
 					case TK_REG:
-            tokens[nr_token++].type=TK_REG;
+            tokens[nr_token].type=TK_REG;
 						for (int j=0;j<substr_len;j++)
               tokens[nr_token].str[j]=substr_start[j];
+						nr_token++;
 						break;	
 					case TK_NUM_10:
             tokens[nr_token].type=TK_NUM_10;
@@ -191,13 +194,20 @@ Op searchDominantOperator(int p,int q){
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
 		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
-		else if(tokens[i].type==TK_EQ||tokens[i].type==TK_FEQ){
-			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'){
+		else if(tokens[i].type=='|'||tokens[i].type=='&'){
+			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'
+				 &&op.type!=TK_EQ&&op.type!=TK_FEQ){
 				op.pos=i;
 				op.type=tokens[i].type;
 			}
 		}
-		else if(tokens[i].type=='*'||tokens[i].type=='/'){
+		else if(tokens[i].type==TK_EQ||tokens[i].type==TK_FEQ){
+			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'){
+				op.pos=i;
+				op.type=tokens[i].type;
+			}
+		}
+		else if(tokens[i].type=='*'||tokens[i].type=='/'||op.type=='%'){
 			if(op.type!='+'&&op.type!='-'){
 				op.pos=i;
 				op.type=tokens[i].type;
@@ -226,7 +236,7 @@ int eval(int p,int q){
 			sscanf(tokens[p].str,"0%o",&sum);		
 		}else if(tokens[p].type=='$'){
 			for (int i=0;i<8;i++){
-        if (strcmp(tokens[p+1].str,regsl[i])==0){
+        if (strcmp(tokens[p].str,regsl[i])==0){
 					sum=cpu.gpr[i]._32;
 				} 
       }
@@ -243,7 +253,9 @@ int eval(int p,int q){
 		printf("op.pos:%d\n",op.pos);
 		if(op.pos==-1){
 			if (tokens[p].type==TK_NAG) return -1*eval(p+1,q);
-      if (tokens[p].type==DEREF)  return vaddr_read(eval(p+1,q),4);
+      if (tokens[p].type==DEREF){
+
+			}  return vaddr_read(eval(p+1,q),4);
 		}
 		val_1=eval(p,op.pos-1);
 		printf("val_1:%d\n",val_1);
