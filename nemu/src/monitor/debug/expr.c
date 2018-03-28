@@ -253,13 +253,12 @@ int eval(int p,int q){
 		op=searchDominantOperator(p,q);
 		printf("op.pos:%d\n",op.pos);
 		if(op.pos==-1){
-			int temp;
+		
 			if (tokens[p].type==TK_NAG){
-				sscanf(tokens[p+1].str,"%d",&temp);
-				return -1*temp;
+				return -1*eval(p+1,q);
 			} 
       if (tokens[p].type==DEREF){
-				
+				int temp;	
 				sscanf(tokens[p+1].str,"%x",&temp);
 				return vaddr_read(temp,4);
 			}	
