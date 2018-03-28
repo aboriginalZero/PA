@@ -241,13 +241,6 @@ int eval(int p,int q){
 			sscanf(tokens[p].str,"0x%x",&sum);		
 		}else if(tokens[p].type==TK_NUM_8){
 			sscanf(tokens[p].str,"0%o",&sum);		
-		}else if(tokens[p].type=='$'){
-			printf("qqqqqq\n");
-			for (int i=0;i<8;i++){
-        if (strcmp(tokens[p+1].str,regsl[i])==0){
-					sum=cpu.gpr[i]._32;
-				} 
-      }
 		}
 		return sum;
   }
@@ -261,9 +254,14 @@ int eval(int p,int q){
 		printf("op.pos:%d\n",op.pos);
 		if(op.pos==-1){
 			if (tokens[p].type==TK_NAG) return -1*eval(p+1,q);
-      if (tokens[p].type==DEREF){
-
-			}  return vaddr_read(eval(p+1,q),4);
+      if (tokens[p].type==DEREF)	return vaddr_read(eval(p+1,q),4);
+			if(tokens[p].type=='$'){
+				for (int i=0;i<8;i++){
+        	if(strcmp(tokens[p+1].str,regsl[i])==0){
+						return cpu.gpr[i]._32;
+					} 
+      	}
+			}
 		}
 		val_1=eval(p,op.pos-1);
 		printf("val_1:%d\n",val_1);
