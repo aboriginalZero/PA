@@ -337,9 +337,9 @@ int eval(int p,int q){
 }
 
 bool judge(int x){
-	if(tokens[x].type!='+'||tokens[x].type!='-'||tokens[x].type!='*'
-	||tokens[x].type!='/'||tokens[x].type!='('||tokens[x].type!='&'
-	||tokens[x].type!='|'||tokens[x].type!=TK_NAG||tokens[x].type!=DEREF)
+	if(tokens[x].type!='+'&&tokens[x].type!='-'&&tokens[x].type!='*'
+	&&tokens[x].type!='/'&&tokens[x].type!='('&&tokens[x].type!='&'
+	&&tokens[x].type!='|'&&tokens[x].type!=TK_NAG&&tokens[x].type!=DEREF)
 		return false;
 	return true;	
 }
