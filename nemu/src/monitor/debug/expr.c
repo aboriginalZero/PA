@@ -74,15 +74,17 @@ static bool make_token(char *e) {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-        char *substr_start = e + position;
-        int substr_len = pmatch.rm_eo;
+        char *substr_start = e + position;//裁下的字段的起始位置
+        int substr_len = pmatch.rm_eo;//裁下的字段的长度
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-        for(int j=0;j<32;j++){
+        
+		for(int j=0;j<32;j++){
 			tokens[nr_token].str[j]='\0';
 		}
 		strncpy(tokens[nr_token].str, e + position, substr_len);
+		
 		position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -295,7 +297,7 @@ int eval(int p,int q){
 		printf("val_1:%d\n",val_1);
 		val_2=eval(op+1,q);
 		printf("val_2:%d\n",val_2);
-		switch(op){
+		switch(tokens[op].type){
 			case '+' : 
 				return val_1+val_2;
       		case '-' : 
