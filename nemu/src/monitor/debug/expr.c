@@ -235,6 +235,7 @@ int eval(int p,int q){
 		}else if(tokens[p].type==TK_NUM_8){
 			sscanf(tokens[p].str,"0%o",&sum);		
 		}else if(tokens[p].type=='$'){
+			printf("qqqqqq\n");
 			for (int i=0;i<8;i++){
         if (strcmp(tokens[p].str,regsl[i])==0){
 					sum=cpu.gpr[i]._32;
