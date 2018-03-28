@@ -278,7 +278,7 @@ int eval(int p,int q){
 		if(op==-1){//函数中里面没有判别的 同时又至少有2位
 			if (tokens[p].type==TK_NAG){
 				sscanf(tokens[p+1].str, "%x", &result);
-				return -1*eval(p+1,q);
+				return -1*result;
 			}
       		else if(tokens[p].type==DEREF){
 				int result;	
