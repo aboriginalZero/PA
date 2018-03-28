@@ -7,11 +7,10 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ=255,TK_FEQ=254,
-  TK_NUM_16=253,TK_NUM_8=252,TK_NUM_10=251,TK_REG=250,
-	TK_NAG=249,DEREF=248,
+  TK_NOTYPE = 256,LMOVE=255,RMOVE=254,BE=253,SE=252,TK_EQ=251,
+  TK_FEQ=250,TK_NUM_16=249,TK_NUM_8=248,TK_NUM_10=247,TK_REG=246,
+	TK_NAG=245,DEREF=244,
   /* TODO: Add more token types */
-
 };
 
 static struct rule {
@@ -22,24 +21,17 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},         // equal
-  {"!=",TK_FEQ},
-  {"-",'-'},
-  {"\\*",'*'},
-  {"/",'/'},
-	{"\\(",'('},
-  {"\\)",')'},
-	{"%",'%'},
-	{"0[0-7]{1,8}",TK_NUM_8},
-  {"0x[0-9a-fA-F]{1,8}",TK_NUM_16},
+	{"\\(",'('},{"\\)",')'},
 	{"\\$",'$'},
-	{"&&",'&'},
-	{"\\|\\|",'|'},
+	{"\\*",'*'},{"/",'/'},{"%",'%'},
+	{"\\+", '+'},{"-",'-'},
+	{"<<",LMOVE},{">>",RMOVE},
+	{">",'>'},{">=",BE},{"<",'<'},{"<",SE},
+	{"==", TK_EQ},{"!=",TK_FEQ},
+	{"&&",'&'},{"\\|\\|",'|'},
+	{"0x[0-9a-fA-F]{1,8}",TK_NUM_16},{"0[0-7]{1,8}",TK_NUM_8},{"[0-9]{1,10}",TK_NUM_10},
 	{"[a-z]{1,10}",TK_REG},
-	{"[0-9]{1,10}",TK_NUM_10},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -97,54 +89,75 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           case TK_NOTYPE:
 						break;
-          case '+':
-            tokens[nr_token++].type='+';break;          
-          case TK_EQ:
-            tokens[nr_token++].type=TK_EQ;break;
-          case TK_FEQ:
-            tokens[nr_token++].type=TK_FEQ;break;
-          case '-':
-            tokens[nr_token++].type='-';break;
-					case '*':
-            tokens[nr_token++].type='*';break;
-					case '/':
-            tokens[nr_token++].type='/';break;
 					case '(':
             tokens[nr_token++].type='(';break;
 					case ')':
             tokens[nr_token++].type=')';break;
-					case '%':
-            tokens[nr_token++].type='%';break;
-					case TK_NUM_8:
-            tokens[nr_token].type=TK_NUM_8;
-						for (int j=0;j<substr_len;j++)
-              tokens[nr_token].str[j]=substr_start[j];
-						nr_token++;
-						break;
-					case TK_NUM_16:
-            tokens[nr_token].type=TK_NUM_16;
-						for (int j=0;j<substr_len;j++)
-              tokens[nr_token].str[j]=substr_start[j];
-						nr_token++;
-						break;
 					case '$':
             tokens[nr_token++].type='$';break;
-					case '&':
+          case '*':
+            tokens[nr_token++].type='*';break;
+					case '/':
+            tokens[nr_token++].type='/';break;				
+					case '%':
+            tokens[nr_token++].type='%';break;
+					case '+':
+            tokens[nr_token++].type='+';break;  
+					case '-':
+            tokens[nr_token++].type='-';break;
+					case LMOVE:
+						tokens[nr_token++].type=LMOVE;break;
+					case RMOVE:
+						tokens[nr_token++].type=RMOVE;break;
+					case '>':
+            tokens[nr_token++].type='>';break;
+					case '<':
+            tokens[nr_token++].type='>';break;  
+					case BE:
+						tokens[nr_token++].type=BE;break;
+						case SE:
+						tokens[nr_token++].type=SE;break;
+          case TK_EQ:
+            tokens[nr_token++].type=TK_EQ;break;
+          case TK_FEQ:
+            tokens[nr_token++].type=TK_FEQ;break;
+          case '&':
             tokens[nr_token++].type='&';break;
 					case '|':
             tokens[nr_token++].type='|';break;
-					case TK_REG:
-            tokens[nr_token].type=TK_REG;
-						for (int j=0;j<substr_len;j++)
-              tokens[nr_token].str[j]=substr_start[j];
-						nr_token++;
-						break;	
+					case TK_NUM_16:
+            tokens[nr_token++].type=TK_NUM_16;break;
+					case TK_NUM_8:
+            tokens[nr_token++].type=TK_NUM_8;break;
 					case TK_NUM_10:
-            tokens[nr_token].type=TK_NUM_10;
-						for(int j=0;j<substr_len;j++)
-							tokens[nr_token].str[j]=substr_start[j];
-						nr_token++;
-						break;
+            tokens[nr_token++].type=TK_NUM_10;break;
+					case TK_REG:
+            tokens[nr_token++].type=TK_REG;break;
+
+					// case TK_NUM_8:
+          //   tokens[nr_token].type=TK_NUM_8;
+					// 	for (int j=0;j<substr_len;j++)
+          //     tokens[nr_token].str[j]=substr_start[j];
+					// 	nr_token++;
+					// 	break;
+					// case TK_NUM_16:
+          //   tokens[nr_token].type=TK_NUM_16;
+					// 	for (int j=0;j<substr_len;j++)
+          //     tokens[nr_token].str[j]=substr_start[j];
+					// 	nr_token++;
+					// 	break;
+					// case TK_REG:
+          //   tokens[nr_token].type=TK_REG;
+					// 	for (int j=0;j<substr_len;j++)
+          //     tokens[nr_token].str[j]=substr_start[j];
+					// 	nr_token++;
+					// 	break;	
+					// case TK_NUM_10:
+          //   tokens[nr_token].type=TK_NUM_10;
+					// 	for(int j=0;j<substr_len;j++)
+					// 		tokens[nr_token].str[j]=substr_start[j];
+					// 	nr_token++;
+					// 	break;
 					
           default: TODO();
         }
@@ -183,47 +196,51 @@ bool check_parentheses(int p,int q){
   return false;
 }
 
-typedef struct op{
-	int pos;
-	int type;	
-}Op;
-Op searchDominantOperator(int p,int q){
-	Op op;
-	op.pos=-1;op.type=-1;
-	for(int cnt=0,i=p;i<=q;i++){
+int searchDominantOperator(int p,int q){
+	int op=-1,cnt=0,op_type=-1;
+	for(int i=p;i<=q;i++){
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
-		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
-		else if(tokens[i].type=='|'||tokens[i].type=='&'){
-			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'
-				 &&op.type!=TK_EQ&&op.type!=TK_FEQ&&op.type=='$'
-				 &&op.type!=DEREF&&op.type!=TK_NAG){
-				op.pos=i;
-				op.type=tokens[i].type;
+		//出现在括号中的 and 非运算符
+		else if(cnt!=0||tokens[i].type==TK_NUM_16||tokens[i].type==TK_NUM_8
+					  ||tokens[i].type==TK_NUM_10) continue;
+		//这边暂且不处理单目运算符
+		else if(cnt==0){
+			
+			if(tokens[i].type=='*'||tokens[i].type=='/'||tokens[i].type=='%'){
+				if(op_type!='+'&&op_type!='-'&&op_type!=LMOVE&&op_type!=RMOVE&&op_type!=BE&&
+				op_type!=SE&&op_type!='>'&&op_type!='<'&&op_type!=TK_FEQ&&op_type!=TK_EQ&&
+				op_type!='|'&&op_type!='&'){
+					 op=i;op_type=tokens[i].type;
+				}
 			}
-		}
-		else if(tokens[i].type==TK_EQ||tokens[i].type==TK_FEQ){
-			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'
-				  &&op.type=='$'&&op.type!=DEREF&&op.type!=TK_NAG){
-				op.pos=i;
-				op.type=tokens[i].type;
+			else if(tokens[i].type=='+'||tokens[i].type=='-'){
+				if(op_type!=LMOVE&&op_type!=RMOVE&&op_type!=BE&&
+				op_type!=SE&&op_type!='>'&&op_type!='<'&&op_type!=TK_FEQ&&op_type!=TK_EQ&&
+				op_type!='|'&&op_type!='&'){
+					 op=i;op_type=tokens[i].type;
+				}
 			}
-		}
-		else if(tokens[i].type=='*'||tokens[i].type=='/'||op.type=='%'){
-			if(op.type!='+'&&op.type!='-'&&op.type=='$'&&op.type!=DEREF&&op.type!=TK_NAG){
-				op.pos=i;
-				op.type=tokens[i].type;
+			else if(tokens[i].type==LMOVE||tokens[i].type==RMOVE){
+				if(op_type!=BE&&
+				op_type!=SE&&op_type!='>'&&op_type!='<'&&op_type!=TK_FEQ&&op_type!=TK_EQ&&
+				op_type!='|'&&op_type!='&'){
+					op=i;op_type=tokens[i].type;
+				}
 			}
-		}
-		else if(tokens[i].type=='+'||tokens[i].type=='-'){
-			if(op.type!='$'&&op.type!=DEREF&&op.type!=TK_NAG){
-				op.pos=i;
-				op.type=tokens[i].type;
+			else if(tokens[i].type==BE||tokens[i].type==SE||tokens[i].type=='>'||tokens[i].type=='<'){
+				if(op_type!=TK_FEQ&&op_type!=TK_EQ&&op_type!='|'&&op_type!='&'){
+					op=i;op_type=tokens[i].type;
+				}
 			}
-		}
-		else if(tokens[i].type=='$'||tokens[i].type==DEREF||tokens[i].type==TK_NAG){
-			op.pos=i;
-			op.type=tokens[i].type;
+			else if(tokens[i].type==TK_FEQ||tokens[i].type==TK_EQ){
+				if(op_type!='|'&&op_type!='&'){
+					op=i;op_type=tokens[i].type;
+				}
+			}
+			else if(tokens[i].type=='|'||tokens[i].type=='&'){
+				op=i;op_type=tokens[i].type;
+			}		 
 		}
 	}
 	return op;
@@ -235,58 +252,67 @@ int eval(int p,int q){
     assert(0);
   }
 	else if(p==q){
-		int sum=0;
+	int sum=-999;
     if(tokens[p].type==TK_NUM_10){
-      sscanf(tokens[p].str,"%d",&sum);	
+        sscanf(tokens[p].str,"%d",&sum);	
     }else if(tokens[p].type==TK_NUM_16){
-			sscanf(tokens[p].str,"0x%x",&sum);		
-		}else if(tokens[p].type==TK_NUM_8){
-			sscanf(tokens[p].str,"0%o",&sum);		
-		}
-		return sum;
+		sscanf(tokens[p].str,"%x",&sum);		
+	}else if(tokens[p].type==TK_NUM_8){
+		sscanf(tokens[p].str,"%o",&sum);		
+	}
+	return sum;
   }
 	else if(check_parentheses(p,q)==true){
     return eval(p+1,q-1);
   }
 	else{
-		int val_1,val_2;
-		Op op;
+		int op,val_1,val_2,result;
 		op=searchDominantOperator(p,q);
-		printf("op.pos:%d\n",op.pos);
-		if(op.pos==-1){
-		
+		printf("op:%d\n",op);
+		if(op==-1){//函数中里面没有判别的 同时又至少有2位
 			if (tokens[p].type==TK_NAG){
+				sscanf(tokens[p+1].str, "%x", &result);
 				return -1*eval(p+1,q);
-			} 
-      if (tokens[p].type==DEREF){
-				int temp;	
-				sscanf(tokens[p+1].str,"%x",&temp);
-				return vaddr_read(temp,4);
-			}	
-		}
-		if(tokens[p].type=='$'){
-				for (int i=0;i<8;i++){
-        	if(strcmp(tokens[p+1].str,regsl[i])==0){
-						return cpu.gpr[i]._32;
-					} 
-      	}
 			}
-		val_1=eval(p,op.pos-1);
+      		else if(tokens[p].type==DEREF){
+				int result;	
+				sscanf(tokens[p+1].str,"%x",&result);
+				return vaddr_read(result,4);
+			}	
+			else if(tokens[p].type=='$'){
+				for(int i= 0;i<8;i++) {
+                    if(strcmp(regsl[i],tokens[p+1].str)==0){
+                        return cpu.gpr[i]._32;
+                    }
+                }
+			}
+      	}
+		val_1=eval(p,op-1);
 		printf("val_1:%d\n",val_1);
-		val_2=eval(op.pos+1,q);
+		val_2=eval(op+1,q);
 		printf("val_2:%d\n",val_2);
-		switch(op.type){
+		switch(op){
 			case '+' : 
 				return val_1+val_2;
-      case '-' : 
+      		case '-' : 
 				return val_1-val_2;
-      case '*' : 
+      		case '*' : 
 				return val_1*val_2;
-      case '/' : 
+      		case '/' : 
 				return val_1/val_2;
-      case TK_EQ : 
+			case LMOVE:
+                return  val_1 <<  val_2;
+            case RMOVE:
+                return  val_1 >>  val_2;
+			case SE:
+                if ( val_1 <=  val_2) return 1;
+                return 0;
+            case BE:
+                if ( val_1 >=  val_2) return 1;
+                return 0;
+      		case TK_EQ : 
 				return val_1==val_2;
-      case TK_FEQ : 
+      		case TK_FEQ : 
 				return val_1!=val_2;
 			case '&' : 
 				return val_1&&val_2;
@@ -298,32 +324,30 @@ int eval(int p,int q){
 			case '>' : 
 				if(val_1>val_2) return 0;
 				return 1;
-      default:assert(0);
+
+      		default:assert(0);
 		}
-  }
+  	}
 }
 
 bool judge(int x){
 	if(tokens[x].type!='+'||tokens[x].type!='-'||tokens[x].type!='*'
 	||tokens[x].type!='/'||tokens[x].type!='('||tokens[x].type!='&'
 	||tokens[x].type!='|'||tokens[x].type!=TK_NAG||tokens[x].type!=DEREF)
-		return true;
-	return false;	
+		return false;
+	return true;	
 }
 
 uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
-    *success = false;
-    return 0;
-  }else{
-		for(int i=0;i<nr_token;i++){
-			if(tokens[i].type=='-'&&(i==0||judge(i-1))){
-				tokens[i].type=TK_NAG;
-			}
-			else if(tokens[i].type=='*'&&(i==0||judge(i-1))){
-				tokens[i].type=DEREF;
-			}
-		}
+	if(!make_token(e)) {
+	    *success = false;
+    	return 0;
+    }	
+	for(int i=0;i<nr_token;i++){
+		if(tokens[i].type=='-'&&(i==0||judge(i-1)==true))
+			tokens[i].type=TK_NAG;
+		else if(tokens[i].type=='*'&&(i==0||judge(i-1))==true)
+			tokens[i].type=DEREF;
 	}
 	int result;
 	result=eval(0,nr_token-1);
