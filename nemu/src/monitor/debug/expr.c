@@ -196,31 +196,32 @@ Op searchDominantOperator(int p,int q){
 		else if(cnt!=0||tokens[i].type==TK_NUM_10) continue;//非运算符和出现在一对括号里面的
 		else if(tokens[i].type=='|'||tokens[i].type=='&'){
 			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'
-				 &&op.type!=TK_EQ&&op.type!=TK_FEQ&&op.type=='$'){
+				 &&op.type!=TK_EQ&&op.type!=TK_FEQ&&op.type=='$'
+				 &&op.type!=DEREF&&op.type!=TK_NAG){
 				op.pos=i;
 				op.type=tokens[i].type;
 			}
 		}
 		else if(tokens[i].type==TK_EQ||tokens[i].type==TK_FEQ){
 			if(op.type!='+'&&op.type!='-'&&op.type!='*'&&op.type!='/'&&op.type!='%'
-				  &&op.type=='$'){
+				  &&op.type=='$'&&op.type!=DEREF&&op.type!=TK_NAG){
 				op.pos=i;
 				op.type=tokens[i].type;
 			}
 		}
 		else if(tokens[i].type=='*'||tokens[i].type=='/'||op.type=='%'){
-			if(op.type!='+'&&op.type!='-'&&op.type=='$'){
+			if(op.type!='+'&&op.type!='-'&&op.type=='$'&&op.type!=DEREF&&op.type!=TK_NAG){
 				op.pos=i;
 				op.type=tokens[i].type;
 			}
 		}
 		else if(tokens[i].type=='+'||tokens[i].type=='-'){
-			if(op.type!='$'){
+			if(op.type!='$'&&op.type!=DEREF&&op.type!=TK_NAG){
 				op.pos=i;
 				op.type=tokens[i].type;
 			}
 		}
-		else if(tokens[i].type=='$'){
+		else if(tokens[i].type=='$'||tokens[i].type==DEREF||tokens[i].type==TK_NAG){
 			op.pos=i;
 			op.type=tokens[i].type;
 		}
