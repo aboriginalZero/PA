@@ -27,7 +27,7 @@ static struct rule {
 	{"\\*",'*'},{"/",'/'},{"%",'%'},
 	{"\\+", '+'},{"-",'-'},
 	{"<<",LMOVE},{">>",RMOVE},
-	{">=",BE},{">",'>'},{"<=",SE},{"<",'<'},
+	{">=",BE},{">",'>'},{"<=",SE},{"<",'<'},//有等于号的要放在前面
 	{"==", TK_EQ},{"!=",TK_FEQ},
 	{"&&",'&'},{"\\|\\|",'|'},
 	{"0x[0-9a-fA-F]{1,8}",TK_NUM_16},{"0[0-7]{1,8}",TK_NUM_8},{"[0-9]{1,10}",TK_NUM_10},
@@ -303,11 +303,11 @@ int eval(int p,int q){
 			case '|' : 
 				return val_1||val_2;
 			case '<' : 
-				if(val_1<val_2) return 0;
-				return 1;
+				if(val_1<val_2) return 1;
+				return 0;
 			case '>' : 
-				if(val_1>val_2) return 0;
-				return 1;
+				if(val_1>val_2) return 1;
+				return 0;
 
       		default:assert(0);
 		}
