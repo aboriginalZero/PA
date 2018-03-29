@@ -252,16 +252,14 @@ int eval(int p,int q){
 		op=searchDominantOperator(p,q);
 		printf("op:%d\n",op);
 		if(op==-1){//函数中里面没有判别的 同时又至少有2位
-			// 这个地方若出现多次负号有问题！！
 			int k=p;
+			//找到最右侧的单目运算符
 			while(tokens[k].type==TK_NAG||tokens[k].type==DEREF||tokens[k].type=='$')
 				k++;
-			printf("k:%d\n",k);
 			for(int i=k-1;i>=p;i--){
 				if (tokens[i].type==TK_NAG){
 					sscanf(tokens[i+1].str, "%d", &result);
 					result*=-1;
-					printf("res:%d\n",result);
 				}
 				else if(tokens[i].type==DEREF){
 					sscanf(tokens[i+1].str,"%d",&result);
@@ -343,6 +341,6 @@ uint32_t expr(char *e, bool *success) {
 	}
 	int result;
 	result=eval(0,nr_token-1);
-	printf("result=%d\n",result);
+	// printf("result=%d\n",result);
 	return result;
 }
