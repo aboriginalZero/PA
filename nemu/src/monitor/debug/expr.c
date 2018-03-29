@@ -258,18 +258,18 @@ int eval(int p,int q){
 				k++;
 			printf("k:%d\n",k);
 			for(int i=k-1;i>=p;i--){
-				if (tokens[p].type==TK_NAG){
-					sscanf(tokens[p+1].str, "%d", &result);
+				if (tokens[i].type==TK_NAG){
+					sscanf(tokens[i+1].str, "%d", &result);
 					result*=-1;
 					printf("res:%d\n",result);
 				}
-				else if(tokens[p].type==DEREF){
-					sscanf(tokens[p+1].str,"%d",&result);
+				else if(tokens[i].type==DEREF){
+					sscanf(tokens[i+1].str,"%d",&result);
 					result=vaddr_read(result,4);
 				}	
-				else if(tokens[p].type=='$'){
-					for(int i=0;i<8;i++)
-						if(strcmp(regsl[i],tokens[p+1].str)==0)
+				else if(tokens[i].type=='$'){
+					for(int j=0;j<8;j++)
+						if(strcmp(regsl[j],tokens[i+1].str)==0)
 							result=cpu.gpr[i]._32;
 				}
 			}
