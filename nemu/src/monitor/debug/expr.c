@@ -256,6 +256,7 @@ int eval(int p,int q){
 			int k=p;
 			while(tokens[k].type==TK_NAG||tokens[k].type==DEREF||tokens[k].type=='$')
 				k++;
+			printf("k:%d\n",k);
 			for(int i=k-1;i>=p;i--){
 				if (tokens[p].type==TK_NAG){
 					sscanf(tokens[p+1].str, "%d", &result);
