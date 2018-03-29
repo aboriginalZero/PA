@@ -114,15 +114,15 @@ static bool make_token(char *e) {
 					case LMOVE:
 						tokens[nr_token++].type=LMOVE;break;
 					case RMOVE:
-						tokens[nr_token++].type=RMOVE;break;
+						tokens[nr_token++].type=RMOVE;break;  
+					case BE:
+						tokens[nr_token++].type=BE;break;
+					case SE:
+						tokens[nr_token++].type=SE;break;
 					case '>':
             tokens[nr_token++].type='>';break;
 					case '<':
-            tokens[nr_token++].type='>';break;  
-					case BE:
-						tokens[nr_token++].type=BE;break;
-						case SE:
-						tokens[nr_token++].type=SE;break;
+            tokens[nr_token++].type='>';break;
           case TK_EQ:
             tokens[nr_token++].type=TK_EQ;break;
           case TK_FEQ:
