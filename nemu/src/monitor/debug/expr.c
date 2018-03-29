@@ -305,9 +305,11 @@ int eval(int p,int q){
 				if(val_1==1||val_2==1) return 1;
 				return 0;
 			case '<' : 
+				printf("<\n");
 				if(val_1<val_2) return 1;
 				return 0;
 			case '>' : 
+			printf(">\n");
 				if(val_1>val_2) return 1;
 				return 0;
 
