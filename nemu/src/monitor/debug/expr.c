@@ -250,8 +250,8 @@ int eval(int p,int q){
 	else{
 		int op,val_1,val_2,result;
 		op=searchDominantOperator(p,q);
-		printf("op:%d\n",op);
-		if(op==-1){//函数中里面没有判别的 同时又至少有2位
+		// printf("op:%d\n",op);
+		if(op==-1){//函数中里面没有判别的,同时又至少有2位
 			int k=p;
 			//找到最右侧的单目运算符
 			while(tokens[k].type==TK_NAG||tokens[k].type==DEREF||tokens[k].type=='$')
@@ -274,33 +274,33 @@ int eval(int p,int q){
 			return result;	
   	}
 		val_1=eval(p,op-1);
-		printf("val_1:%d\n",val_1);
+		// printf("val_1:%d\n",val_1);
 		val_2=eval(op+1,q);
-		printf("val_2:%d\n",val_2);
+		// printf("val_2:%d\n",val_2);
 		switch(tokens[op].type){
 			case '+' : 
 				return val_1+val_2;
-      		case '-' : 
+      case '-' : 
 				return val_1-val_2;
-      		case '*' : 
+  		case '*' : 
 				return val_1*val_2;
-      		case '/' : 
+    	case '/' : 
 				return val_1/val_2;
-					case '%' : 
+			case '%' : 
 				return val_1%val_2;
 			case LMOVE:
-                return  val_1 <<  val_2;
-            case RMOVE:
-                return  val_1 >>  val_2;
+        return  val_1<<val_2;
+      case RMOVE:
+        return  val_1>>val_2;
 			case SE:
-                if ( val_1 <=  val_2) return 1;
-                return 0;
-            case BE:
-                if ( val_1 >=  val_2) return 1;
-                return 0;
-      		case TK_EQ : 
+        if(val_1<=val_2) return 1;
+        return 0;
+      case BE:
+				if(val_1>=val_2) return 1;
+        return 0;
+      case TK_EQ : 
 				return val_1==val_2;
-      		case TK_FEQ : 
+      case TK_FEQ : 
 				return val_1!=val_2;
 			case '&' : 
 				if(val_1==0||val_2==0) return 0;
@@ -314,8 +314,7 @@ int eval(int p,int q){
 			case '>' : 
 				if(val_1>val_2) return 1;
 				return 0;
-
-      		default:assert(0);
+    	default:assert(0);
 			}
   	}
 }
@@ -333,14 +332,11 @@ uint32_t expr(char *e, bool *success) {
 	    *success = false;
     	return 0;
     }	
-	for(int i=0;i<nr_token;i++){
+	for(int i=0;i<nr_token;i++){//提前处理有歧义的单目运算符
 		if(tokens[i].type=='-'&&(i==0||judge(i-1)==true))
 			tokens[i].type=TK_NAG;
 		else if(tokens[i].type=='*'&&(i==0||judge(i-1))==true)
 			tokens[i].type=DEREF;
 	}
-	int result;
-	result=eval(0,nr_token-1);
-	// printf("result=%d\n",result);
-	return result;
+	return eval(0,nr_token-1);
 }
