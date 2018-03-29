@@ -299,9 +299,11 @@ int eval(int p,int q){
       		case TK_FEQ : 
 				return val_1!=val_2;
 			case '&' : 
-				return val_1&&val_2;
+				if(val_1==0||val_2==0) return 0;
+				return 1;
 			case '|' : 
-				return val_1||val_2;
+				if(val_1==1||val_2==1) return 1;
+				return 0;
 			case '<' : 
 				if(val_1<val_2) return 1;
 				return 0;
