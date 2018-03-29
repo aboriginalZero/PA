@@ -261,6 +261,7 @@ int eval(int p,int q){
 				if (tokens[p].type==TK_NAG){
 					sscanf(tokens[p+1].str, "%d", &result);
 					result*=-1;
+					printf("res:%d\n",result);
 				}
 				else if(tokens[p].type==DEREF){
 					sscanf(tokens[p+1].str,"%d",&result);
