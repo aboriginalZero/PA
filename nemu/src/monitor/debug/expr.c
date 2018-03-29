@@ -79,10 +79,10 @@ static bool make_token(char *e) {
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-        
-		for(int j=0;j<32;j++){
+		//每次都初始化避免溢出
+		for(int j=0;j<32;j++)
 			tokens[nr_token].str[j]='\0';
-		}
+		//把划分后的语句及时存入  
 		strncpy(tokens[nr_token].str, e + position, substr_len);
 		
 		position += substr_len;
@@ -139,32 +139,6 @@ static bool make_token(char *e) {
             tokens[nr_token++].type=TK_NUM_10;break;
 					case TK_REG:
             tokens[nr_token++].type=TK_REG;break;
-
-					// case TK_NUM_8:
-          //   tokens[nr_token].type=TK_NUM_8;
-					// 	for (int j=0;j<substr_len;j++)
-          //     tokens[nr_token].str[j]=substr_start[j];
-					// 	nr_token++;
-					// 	break;
-					// case TK_NUM_16:
-          //   tokens[nr_token].type=TK_NUM_16;
-					// 	for (int j=0;j<substr_len;j++)
-          //     tokens[nr_token].str[j]=substr_start[j];
-					// 	nr_token++;
-					// 	break;
-					// case TK_REG:
-          //   tokens[nr_token].type=TK_REG;
-					// 	for (int j=0;j<substr_len;j++)
-          //     tokens[nr_token].str[j]=substr_start[j];
-					// 	nr_token++;
-					// 	break;	
-					// case TK_NUM_10:
-          //   tokens[nr_token].type=TK_NUM_10;
-					// 	for(int j=0;j<substr_len;j++)
-					// 		tokens[nr_token].str[j]=substr_start[j];
-					// 	nr_token++;
-					// 	break;
-					
           default: TODO();
         }
         break;
@@ -191,9 +165,9 @@ bool check_parentheses(int p,int q){
             flag=1;
           }
         }
-        if(flag==0) //左括号个数多于右括号的情况
+        if(flag==0) //左括号没有与之匹配的右括号
           return false;
-      }else if(tokens[i].type==')'){//右括号个数多于左括号的情况
+      }else if(tokens[i].type==')'){//先出现右括号
           return false;
       }
     }
@@ -258,15 +232,17 @@ int eval(int p,int q){
     assert(0);
   }
 	else if(p==q){
-	int sum=-999;
+		int sum=-99999;
     if(tokens[p].type==TK_NUM_10){
         sscanf(tokens[p].str,"%d",&sum);	
-    }else if(tokens[p].type==TK_NUM_16){
+    }
+		else if(tokens[p].type==TK_NUM_16){
 		sscanf(tokens[p].str,"%x",&sum);		
-	}else if(tokens[p].type==TK_NUM_8){
-		sscanf(tokens[p].str,"%o",&sum);		
-	}
-	return sum;
+		}
+		else if(tokens[p].type==TK_NUM_8){
+			sscanf(tokens[p].str,"%o",&sum);		
+		}
+		return sum;
   }
 	else if(check_parentheses(p,q)==true){
     return eval(p+1,q-1);
@@ -281,8 +257,7 @@ int eval(int p,int q){
 				sscanf(tokens[p+1].str, "%x", &result);
 				return -1*result;
 			}
-      		else if(tokens[p].type==DEREF){
-				int result;	
+      else if(tokens[p].type==DEREF){
 				sscanf(tokens[p+1].str,"%x",&result);
 				return vaddr_read(result,4);
 			}	
