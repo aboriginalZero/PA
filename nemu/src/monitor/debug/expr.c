@@ -253,21 +253,25 @@ int eval(int p,int q){
 		printf("op:%d\n",op);
 		if(op==-1){//函数中里面没有判别的 同时又至少有2位
 			// 这个地方若出现多次负号有问题！！
-			if (tokens[p].type==TK_NAG){
-				sscanf(tokens[p+1].str, "%d", &result);
-				return -1*result;
+			int k=p;
+			while(tokens[k].type==TK_NAG||tokens[k].type==DEREF||tokens[k].type=='$')
+				k++;
+			for(int i=k-1;i>=p;i--){
+				if (tokens[p].type==TK_NAG){
+					sscanf(tokens[p+1].str, "%d", &result);
+					result*=-1;
+				}
+				else if(tokens[p].type==DEREF){
+					sscanf(tokens[p+1].str,"%d",&result);
+					result=vaddr_read(result,4);
+				}	
+				else if(tokens[p].type=='$'){
+					for(int i=0;i<8;i++)
+						if(strcmp(regsl[i],tokens[p+1].str)==0)
+							result=cpu.gpr[i]._32;
+				}
 			}
-      else if(tokens[p].type==DEREF){
-				sscanf(tokens[p+1].str,"%d",&result);
-				return vaddr_read(result,4);
-			}	
-			else if(tokens[p].type=='$'){
-				for(int i= 0;i<8;i++) {
-          if(strcmp(regsl[i],tokens[p+1].str)==0){
-          	return cpu.gpr[i]._32;
-          }
-        }
-			}
+			return result;	
   	}
 		val_1=eval(p,op-1);
 		printf("val_1:%d\n",val_1);
@@ -305,16 +309,14 @@ int eval(int p,int q){
 				if(val_1==1||val_2==1) return 1;
 				return 0;
 			case '<' : 
-				
 				if(val_1<val_2) return 1;
 				return 0;
 			case '>' : 
-			
 				if(val_1>val_2) return 1;
 				return 0;
 
       		default:assert(0);
-		}
+			}
   	}
 }
 
