@@ -122,7 +122,7 @@ static bool make_token(char *e) {
 					case '>':
             tokens[nr_token++].type='>';break;
 					case '<':
-            tokens[nr_token++].type='>';break;
+            tokens[nr_token++].type='<';break;
           case TK_EQ:
             tokens[nr_token++].type=TK_EQ;break;
           case TK_FEQ:
@@ -305,11 +305,11 @@ int eval(int p,int q){
 				if(val_1==1||val_2==1) return 1;
 				return 0;
 			case '<' : 
-				printf("<\n");
+				
 				if(val_1<val_2) return 1;
 				return 0;
 			case '>' : 
-			printf(">\n");
+			
 				if(val_1>val_2) return 1;
 				return 0;
 
