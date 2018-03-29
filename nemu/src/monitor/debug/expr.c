@@ -254,21 +254,21 @@ int eval(int p,int q){
 		if(op==-1){//函数中里面没有判别的 同时又至少有2位
 			// 这个地方若出现多次负号有问题！！
 			if (tokens[p].type==TK_NAG){
-				sscanf(tokens[q].str, "%x", &result);
+				sscanf(tokens[p+1].str, "%d", &result);
 				return -1*result;
 			}
       else if(tokens[p].type==DEREF){
-				sscanf(tokens[p+1].str,"%x",&result);
+				sscanf(tokens[p+1].str,"%d",&result);
 				return vaddr_read(result,4);
 			}	
 			else if(tokens[p].type=='$'){
 				for(int i= 0;i<8;i++) {
-                    if(strcmp(regsl[i],tokens[p+1].str)==0){
-                        return cpu.gpr[i]._32;
-                    }
-                }
+          if(strcmp(regsl[i],tokens[p+1].str)==0){
+          	return cpu.gpr[i]._32;
+          }
+        }
 			}
-      	}
+  	}
 		val_1=eval(p,op-1);
 		printf("val_1:%d\n",val_1);
 		val_2=eval(op+1,q);
