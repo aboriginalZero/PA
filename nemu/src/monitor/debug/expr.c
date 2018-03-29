@@ -282,6 +282,8 @@ int eval(int p,int q){
 				return val_1*val_2;
       		case '/' : 
 				return val_1/val_2;
+					case '%' : 
+				return val_1%val_2;
 			case LMOVE:
                 return  val_1 <<  val_2;
             case RMOVE:
