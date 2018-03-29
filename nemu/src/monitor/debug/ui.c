@@ -147,7 +147,7 @@ static int cmd_p(char *args){
   char *temp=strtok(NULL," ");
   bool *flag=false;
   // return expr(temp,flag);
-  printf("result =%d",expr(temp,flag));
+  printf("result =%d\n",expr(temp,flag));
   return 0;
 }
 void ui_mainloop(int is_batch_mode) {
