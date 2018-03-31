@@ -34,7 +34,6 @@ void cpu_exec(uint64_t n) {
     bool flag=judgeWatchPoint();
     if(flag){
     	nemu_state=NEMU_STOP;
-		printf("Stop\n");
 	}
 
 
