@@ -106,10 +106,8 @@ static int cmd_si(char *args){
   return 0;
 }
 
-static int cmd_info(char *args){
-    char *temp=strtok(NULL," ");
-    if(strcmp(temp,"r")==0){
-      printf("The following are all hexadecimal(0x)\n");
+void printALlRegisters(){
+	printf("The following are all hexadecimal(0x)\n");
     for(int i=0;i<8;i++){
       printf("%s:\t%8x\t",regsl[i],cpu.gpr[i]._32);
       if(i%2==1)
@@ -126,10 +124,13 @@ static int cmd_info(char *args){
       printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[1]);
       printf("\n");	
     }
-	}
-  else if(strcmp(temp,"w")==0){
-    printAllWatchPoint();
-  }
+}
+static int cmd_info(char *args){
+    char *temp=strtok(NULL," ");
+    if(strcmp(temp,"r")==0)
+    	printALlRegisters();
+  	else if(strcmp(temp,"w")==0)
+    	printAllWatchPoint();
 	return 0;
 }
 
@@ -151,10 +152,7 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   char *temp=strtok(NULL," ");
-  bool *flag=false;
-  printf("%s",temp);  
-  // return expr(temp,flag);
-  printf("result =%d\n",expr(temp,flag));
+  printf("result =%d\n",expr(temp));
   return 1;
 }
 

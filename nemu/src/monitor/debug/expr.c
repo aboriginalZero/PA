@@ -327,10 +327,8 @@ bool judge(int x){
 	return true;	
 }
 
-uint32_t expr(char *e, bool *success) {
-	// *success = true;
+uint32_t expr(char *e) {
 	if(!make_token(e)) {
-	    *success = false;
     	return 0;
     }	
 	for(int i=0;i<nr_token;i++){//提前处理有歧义的单目运算符

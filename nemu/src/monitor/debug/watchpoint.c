@@ -42,11 +42,10 @@ WP* new_wp(){
 	return p;
 }
 void createWatchPoint(char *args){
-	bool *flag=false;
 	WP *p=new_wp();
 	strcpy(p->expr,args);
 	p->type=1;
-	p->value=expr(p->expr,flag);
+	p->value=expr(p->expr);
 }
 void free_wp(WP *wp){
 	WP* p=head;
@@ -81,11 +80,10 @@ WP* searchWatchPoint(int num){
 }
 bool judgeWatchPoint(){
 	bool flag;
-	bool *temp=false;
 	int value;
 	WP *p=head;
 	while(p){
-		value=expr(p->expr,temp);
+		value=expr(p->expr);
 		if(value!=p->value){
 			printf("NO.%d\toldValue:0x%xnewValue:0x%x\n",p->NO,p->value,value);
 			p->value=value;
@@ -102,7 +100,7 @@ void printAllWatchPoint(){
 		return;
 	}
 	while(p){
-		printf("Num	Type expr	value\n");
+		printf("Num	Type	expr	value\n");
 		if(p->type==1){
 			printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
 			p=p->next;
