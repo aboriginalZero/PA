@@ -54,12 +54,12 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-  { "si","step by step",cmd_si},
-  { "info","print the states of register",cmd_info},
-  { "x","scanning memory",cmd_x},
-  { "p","caculator",cmd_p},
-  { "w","create new watchpoint",cmd_w},
-  { "d","delete the watchpoint",cmd_d},
+  { "si","Step by step",cmd_si},
+  { "info","Print the states of register",cmd_info},
+  { "x","Scanning memory",cmd_x},
+  { "p","Caculator",cmd_p},
+  { "w","Create new watchpoint",cmd_w},
+  { "d","Delete the watchpoint",cmd_d},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
