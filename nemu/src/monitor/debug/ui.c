@@ -41,6 +41,8 @@ static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
+static int cmd_w(char *args);
+static int cmd_d(char *args);
 
 static struct {
   char *name;
@@ -56,7 +58,8 @@ static struct {
   { "info","print the states of register",cmd_info},
   { "x","scanning memory",cmd_x},
   { "p","caculator",cmd_p},
-
+  { "w","create new watchpoint",cmd_w},
+  { "d","delete the watchpoint",cmd_d},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -124,6 +127,9 @@ static int cmd_info(char *args){
       printf("\n");	
     }
 	}
+  else if(strcmp(temp,"w")==0){
+    printAllWatchPoint();
+  }
 	return 0;
 }
 
@@ -150,6 +156,23 @@ static int cmd_p(char *args){
   printf("result =%d\n",expr(temp,flag));
   return 0;
 }
+
+static int cmd_w(char *args){
+  char *temp=strtok(NULL," ");
+  createWatchPoint(temp);
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int num;
+  sscanf(args,"%d",&num);
+  WP *wp;
+  wp=searchWatchPoint(num);
+  free_wp(wp);
+  return 0;
+}
+
+
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);

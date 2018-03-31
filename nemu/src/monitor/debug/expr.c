@@ -328,6 +328,7 @@ bool judge(int x){
 }
 
 uint32_t expr(char *e, bool *success) {
+	*success = true;
 	if(!make_token(e)) {
 	    *success = false;
     	return 0;
