@@ -85,7 +85,8 @@ bool judgeWatchPoint(){
 	while(p){
 		value=expr(p->expr);
 		if(value!=p->value){
-			printf("NO.%d\toldValue:0x%xnewValue:0x%x\n",p->NO,p->value,value);
+			printf("Num	oldValue	newValue\n");
+			printf("%d	0x%x	0x%x\n", p->NO,p->value,value);	
 			p->value=value;
 			flag=true;
 		}
