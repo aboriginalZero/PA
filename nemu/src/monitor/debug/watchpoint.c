@@ -103,6 +103,10 @@ bool judgeWatchPoint(){
 }
 void printAllWatchPoint(){
 	WP *p=head;
+	if(!head){
+		printf("there is no watchpoint!\n");
+		return;
+	}
 	while(p){
 		printf("Num	Type		expr	value\n");
 		printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
