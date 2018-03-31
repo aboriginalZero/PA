@@ -159,6 +159,7 @@ static int cmd_p(char *args){
 
 static int cmd_w(char *args){
   char *temp=strtok(NULL," ");
+  printf("%s",temp);
   createWatchPoint(temp);
   return 0;
 }
