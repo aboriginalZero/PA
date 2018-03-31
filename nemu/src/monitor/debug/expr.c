@@ -226,13 +226,13 @@ int searchDominantOperator(int p,int q){
 	return op;
 }
 
-int eval(int p,int q){
+uint32_t eval(int p,int q){
   if(p>q){
     printf("Bad expression_1!\n");
     assert(0);
   }
 	else if(p==q){
-		int sum=-99999;
+		uint32_t sum=-99999;
     if(tokens[p].type==TK_NUM_10){
         sscanf(tokens[p].str,"%d",&sum);	
     }
@@ -248,7 +248,7 @@ int eval(int p,int q){
     return eval(p+1,q-1);
   }
 	else{
-		int op,val_1,val_2,result;
+		uint32_t op,val_1,val_2,result;
 		op=searchDominantOperator(p,q);
 		// printf("op:%d\n",op);
 		if(op==-1){//函数中里面没有判别的,同时又至少有2位

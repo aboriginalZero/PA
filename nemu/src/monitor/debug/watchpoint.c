@@ -106,6 +106,5 @@ void printAllWatchPoint(){
 			printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
 			p=p->next;
 		}
-		
 	}
 }
