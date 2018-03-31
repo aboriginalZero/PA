@@ -102,7 +102,10 @@ void printAllWatchPoint(){
 	}
 	while(p){
 		printf("Num	Type		expr	value\n");
-		printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
-		p=p->next;
+		if(p->type==1){
+			printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
+			p=p->next;
+		}
+		
 	}
 }
