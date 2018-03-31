@@ -62,9 +62,9 @@ void free_wp(WP *wp){
 void createWatchPoint(char *args){
 	bool *flag=false;
 	WP *p=new_wp();
+	strcpy(p->expr,args);
 	int value=expr(p->expr,flag);
 	p->type=1;
-	strcpy(p->expr,args);
 	if(args[0]=='$'){
 		p->value=vaddr_read(value,4);
 		printf("ssss\n");
