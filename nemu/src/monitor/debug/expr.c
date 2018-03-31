@@ -266,6 +266,8 @@ uint32_t eval(int p,int q){
 					result=vaddr_read(result,4);
 				}	
 				else if(tokens[i].type=='$'){
+					if(strcmp("eip",tokens[i+1].str)==0)
+						result=cpu.eip;
 					for(int j=0;j<8;j++)
 						if(strcmp(regsl[j],tokens[i+1].str)==0)
 							result=cpu.gpr[j]._32;
