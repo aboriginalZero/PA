@@ -26,6 +26,7 @@ WP* new_wp(){
 	free_=free_->next;
 	if(!head){
 		head=p;
+		head->next=NULL;
 		p->NO=1;
 	}else{
 		int cnt=2;
@@ -39,6 +40,13 @@ WP* new_wp(){
 		p->next=NULL;
 	}
 	return p;
+}
+void createWatchPoint(char *args){
+	bool *flag=false;
+	WP *p=new_wp();
+	strcpy(p->expr,args);
+	p->type=1;
+	p->value=expr(p->expr,flag);
 }
 void free_wp(WP *wp){
 	WP* p=head;
@@ -58,13 +66,6 @@ void free_wp(WP *wp){
 		wp->next=free_;
 		free_=wp;
 	}
-}
-void createWatchPoint(char *args){
-	bool *flag=false;
-	WP *p=new_wp();
-	strcpy(p->expr,args);
-	p->type=1;
-	p->value=expr(p->expr,flag);
 }
 WP* searchWatchPoint(int num){
 	WP *p=head;
