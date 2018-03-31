@@ -268,7 +268,7 @@ uint32_t eval(int p,int q){
 				else if(tokens[i].type=='$'){
 					for(int j=0;j<8;j++)
 						if(strcmp(regsl[j],tokens[i+1].str)==0)
-							result=cpu.gpr[i]._32;
+							result=cpu.gpr[j]._32;
 				}
 			}
 			return result;	
