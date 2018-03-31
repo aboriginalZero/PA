@@ -63,16 +63,8 @@ void createWatchPoint(char *args){
 	bool *flag=false;
 	WP *p=new_wp();
 	strcpy(p->expr,args);
-	long long  value=expr(p->expr,flag);
 	p->type=1;
-	if(args[0]=='$'){
-		printf("ssss\n");
-		p->value=vaddr_read(value,4);
-		
-	}
-		
-	else 
-		p->value=value;
+	p->value=expr(p->expr,flag);
 }
 WP* searchWatchPoint(int num){
 	WP *p=head;
