@@ -101,11 +101,14 @@ void printAllWatchPoint(){
 		printf("There is no watchpoint!\n");
 		return;
 	}
-	while(p){
+	else{
 		printf("Num	Type	Expr	Value\n");
-		if(p->type==1){
-			printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
-			p=p->next;
+		while(p){		
+			if(p->type==1){
+				printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
+				p=p->next;
+			}
 		}
 	}
+	
 }
