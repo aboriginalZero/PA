@@ -85,8 +85,9 @@ bool judgeWatchPoint(){
 	while(p){
 		value=expr(p->expr);
 		if(value!=p->value){
-			printf("Num	oldValue	newValue\n");
-			printf("%d	0x%x	0x%x\n", p->NO,p->value,value);	
+			printf("The following watchpoint is changed!\n");
+			printf("Num	Expr	OldValue	NewValue\n");
+			printf("%d	%s	0x%x	0x%x\n", p->NO,p->expr,p->value,value);	
 			p->value=value;
 			flag=true;
 		}
@@ -97,11 +98,11 @@ bool judgeWatchPoint(){
 void printAllWatchPoint(){
 	WP *p=head;
 	if(!head){
-		printf("there is no watchpoint!\n");
+		printf("There is no watchpoint!\n");
 		return;
 	}
 	while(p){
-		printf("Num	Type	expr	value\n");
+		printf("Num	Type	Expr	Value\n");
 		if(p->type==1){
 			printf("%d	%d	%s	0x%x\n", p->NO,p->type,p->expr,p->value);		
 			p=p->next;

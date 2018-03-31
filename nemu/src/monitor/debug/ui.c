@@ -168,7 +168,8 @@ static int cmd_d(char *args){
   sscanf(args,"%d",&num);
   WP *wp;
   wp=searchWatchPoint(num);
-  free_wp(wp);
+  if(wp)
+  	free_wp(wp);
   return 1;
 }
 
