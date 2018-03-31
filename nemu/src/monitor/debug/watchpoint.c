@@ -65,8 +65,11 @@ void createWatchPoint(char *args){
 	int value=expr(p->expr,flag);
 	p->type=1;
 	strcpy(p->expr,args);
-	if(args[0]=='$')
+	if(args[0]=='$'){
 		p->value=vaddr_read(value,4);
+		printf("ssss\n");
+	}
+		
 	else 
 		p->value=value;
 }
