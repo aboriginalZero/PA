@@ -152,6 +152,7 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
   char *temp=strtok(NULL," ");
   bool *flag=false;
+  printf("%s",temp);  
   // return expr(temp,flag);
   printf("result =%d\n",expr(temp,flag));
   return 1;
