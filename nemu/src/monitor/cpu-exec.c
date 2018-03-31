@@ -35,8 +35,6 @@ void cpu_exec(uint64_t n) {
     if(flag){
     	nemu_state=NEMU_STOP;
 	}
-
-
 #endif
 
 #ifdef HAS_IOE
