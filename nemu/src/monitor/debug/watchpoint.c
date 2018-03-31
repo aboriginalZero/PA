@@ -63,7 +63,7 @@ void createWatchPoint(char *args){
 	bool *flag=false;
 	WP *p=new_wp();
 	strcpy(p->expr,args);
-	int value=expr(p->expr,flag);
+	long long  value=expr(p->expr,flag);
 	p->type=1;
 	if(args[0]=='$'){
 		printf("ssss\n");
