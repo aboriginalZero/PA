@@ -154,14 +154,14 @@ static int cmd_p(char *args){
   bool *flag=false;
   // return expr(temp,flag);
   printf("result =%d\n",expr(temp,flag));
-  return 0;
+  return 1;
 }
 
 static int cmd_w(char *args){
   char *temp=strtok(NULL," ");
-  printf("%s",temp);
+  printf("%s",temp);  
   createWatchPoint(temp);
-  return 0;
+  return 1;
 }
 
 static int cmd_d(char *args){
@@ -170,7 +170,7 @@ static int cmd_d(char *args){
   WP *wp;
   wp=searchWatchPoint(num);
   free_wp(wp);
-  return 0;
+  return 1;
 }
 
 
