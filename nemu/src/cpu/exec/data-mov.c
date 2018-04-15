@@ -6,13 +6,13 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  TODO();
-
-  print_asm_template1(push);
+  rtl_push(&id_dest->val);//这个函数已经做完了访问存储操作,于是直接调用即可
+  print_asm_template1(push);//打印显示在屏幕上的汇编代码
 }
 
 make_EHelper(pop) {
-  TODO();
+  rtl_pop(&t0);
+  //operand_write(id_dest,&t0);
 
   print_asm_template1(pop);
 }
