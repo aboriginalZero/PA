@@ -100,7 +100,7 @@ static int cmd_si(char *args){
     }else if(n==0){
       cpu_exec(1);
     }else{
-      for(int i=0;i<n;i++)
+      for(int i=0;i<=n;i++)
         cpu_exec(i);
     }
   }
