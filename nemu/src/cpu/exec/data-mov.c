@@ -6,7 +6,7 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  rtl_push(eip);//这个函数已经做完了访问存储操作,于是直接调用即可
+  rtl_push(&id_dest->val);//这个函数已经做完了访问存储操作,于是直接调用即可
   print_asm_template1(push);//打印显示在屏幕上的汇编代码
 }
 
