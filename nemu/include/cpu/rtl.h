@@ -142,16 +142,15 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
-  // rtl_subi(&cpu.esp,&cpu.esp,4);//通过已经实现的RTL指令给esp减去4
-  // rtl_sm(&cpu.esp,4,src1);//把src1写入esp指向的内存,宽度为4个字节
-TODO();
+  rtl_subi(&cpu.esp,&cpu.esp,4);//通过已经实现的RTL指令给esp减去4
+  rtl_sm(&cpu.esp,4,src1);//把src1写入esp指向的内存,宽度为4个字节
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4 
-  rtl_lm(dest,&cpu.esp,4);
-  rtl_addi(&cpu.esp,&cpu.esp,4);
+  rtl_lm(dest,&cpu.esp,4);//把cpu.esp的值写入dest中
+  rtl_addi(&cpu.esp,&cpu.esp,4);//esp加上4
 }
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)

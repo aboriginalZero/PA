@@ -11,9 +11,8 @@ make_EHelper(push) {
 }
 
 make_EHelper(pop) {
-  rtl_pop(&t0);
-  operand_write(id_dest,&t0);
-
+  rtl_pop(&t0);//t0即pop出来的那个值
+  operand_write(id_dest,&t0);//将该值写入id_dest中
   print_asm_template1(pop);
 }
 
