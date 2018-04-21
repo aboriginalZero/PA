@@ -72,7 +72,9 @@ static inline make_DopHelper(r) {
   op->type = OP_TYPE_REG;
   op->reg = decoding.opcode & 0x7;
   if (load_val) {
+    
     rtl_lr(&op->val, op->reg, op->width);
+    printf("%d\n",op->val);
   }
 
 #ifdef DEBUG
