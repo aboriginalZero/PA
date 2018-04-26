@@ -101,8 +101,6 @@ static int cmd_si(char *args){
       cpu_exec(1);
     }else{
       cpu_exec(n);
-      // for(int i=0;i<=n;i++)
-      //   cpu_exec(i);
     }
   }
   return 0;

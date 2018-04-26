@@ -22,9 +22,7 @@ void cpu_exec(uint64_t n) {
   nemu_state = NEMU_RUNNING;
 
   bool print_flag = true;
-  printf("%ld\n",n);
-  for (; n > 0; n --) {
-    
+  for (; n > 0; n --) {   
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
     exec_wrapper(print_flag);
@@ -35,7 +33,6 @@ void cpu_exec(uint64_t n) {
     bool flag=judgeWatchPoint();
     
     if(flag){
-      printf("Tncorrect!\n");
     	nemu_state=NEMU_STOP;
 	}
 #endif
