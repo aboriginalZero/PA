@@ -22,7 +22,7 @@ void cpu_exec(uint64_t n) {
   nemu_state = NEMU_RUNNING;
 
   bool print_flag = true;
-  
+  printf("%ld\n",n);
   for (; n > 0; n --) {
     printf("Tncorrect!\n");
     /* Execute one instruction, including instruction fetch,
