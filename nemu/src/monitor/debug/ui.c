@@ -28,7 +28,6 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  printf("efrvfv\n");
   cpu_exec(-1);
   return 0;
 }
