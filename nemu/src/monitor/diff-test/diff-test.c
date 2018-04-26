@@ -151,7 +151,7 @@ void difftest_step(uint32_t eip) {
   // Set `diff` as `true` if they are not the same.
   if(cpu.eip!=r.eip){
     printf("the problem is on the eip!\n");
-    diff=true;
+    // diff=true;
   }
   for(int i=0;i<8;i++){
     if(cpu.gpr[i]._32!=r.array[i]){
