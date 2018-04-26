@@ -79,7 +79,7 @@ WP* searchWatchPoint(int num){
 	return p;
 }
 bool judgeWatchPoint(){
-	bool flag;
+	bool flag=false;
 	int value;
 	WP *p=head;
 	while(p){
