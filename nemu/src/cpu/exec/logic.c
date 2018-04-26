@@ -9,6 +9,7 @@ make_EHelper(test) {
 make_EHelper(and) {
   rtl_and(&id_dest->val, &id_dest->val, &id_src->val);
   operand_write(id_dest, &id_dest->val);
+  rtl_update_ZFSF(&id_dest->val,id_dest->width);
   printf("sfdvfvf\n");
   print_asm_template2(and);
 }

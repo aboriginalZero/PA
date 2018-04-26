@@ -35,7 +35,6 @@ make_EHelper(ret) {
   decoding.is_jmp=1;
   rtl_pop(&t0);
   rtl_mv(&decoding.jmp_eip,&t0);
-
   print_asm("ret");
 }
 
