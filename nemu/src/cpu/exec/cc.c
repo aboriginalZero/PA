@@ -3,6 +3,7 @@
 /* Condition Code */
 
 void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
+  printf("ssss\n");
   bool invert = subcode & 0x1;
   enum {
     CC_O, CC_NO, CC_B,  CC_NB,
