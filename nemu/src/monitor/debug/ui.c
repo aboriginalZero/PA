@@ -124,6 +124,7 @@ void printALlRegisters(){
       printf("%s:\t%8x\t",regsb[j],cpu.gpr[i]._8[1]);
       printf("\n");	
     }
+    printf("cpu.CF:%x cpu.OF:%x cpu.SF:%x cpu.ZF:%x\n",cpu.CF,cpu.OF,cpu.SF,cpu.ZF);
 }
 static int cmd_info(char *args){
     char *temp=strtok(NULL," ");
