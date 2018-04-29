@@ -166,7 +166,7 @@ static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
 
 static inline void rtl_eqi(rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   // dest <- (src1 == imm ? 1 : 0)
-  TODO();
+  rtl_li(dest,*src1 == imm ? 1 : 0);
 }
 
 static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
@@ -176,11 +176,18 @@ static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  rtl_li(dest,src1[width * 8 - 1]);
+  rtl_li(dest,((*src1)>>(width*8-1))&0x1);
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
+  if(width==1){
+    t0=(*result&0x000000ff)|0;
+  }else if(width==2){
+    t0=(*result&0x0000ffff)|0;
+  }else if(width==4){
+    t0=(*result&0xffffffff)|0;
+  }
   rtl_eq0(&t0,result);
   rtl_set_ZF(&t0);
 }
