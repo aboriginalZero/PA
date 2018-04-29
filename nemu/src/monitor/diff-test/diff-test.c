@@ -150,7 +150,7 @@ void difftest_step(uint32_t eip) {
   // TODO: Check the registers state with QEMU.
   // Set `diff` as `true` if they are not the same.
   if(cpu.eip!=r.eip){
-    printf("the problem is on the eip:%x %x!\n",cpu.eip,r.eip);
+    printf("the problem is on the eip\ncpu.eip:%x r.eip:%x!\n",cpu.eip,r.eip);
     diff=true;
   }
   for(int i=0;i<8;i++){
