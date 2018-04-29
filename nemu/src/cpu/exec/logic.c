@@ -13,6 +13,8 @@ make_EHelper(and) {
   rtl_and(&id_dest->val, &id_dest->val, &id_src->val);
   operand_write(id_dest, &id_dest->val);
   rtl_update_ZFSF(&id_dest->val,id_dest->width);
+  rtl_set_OF(&tzero);
+  rtl_set_CF(&tzero);
   print_asm_template2(and);
 }
 
