@@ -41,7 +41,7 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
-  rtl_subi(&t2, &id_dest->val, 1);
+  rtl_sub(&t2, &id_dest->val, &id_dest->val);
   rtl_sltu(&t3, &id_dest->val, &t2);
   // rtl_get_CF(&t1);
   // rtl_sub(&t2, &t2, &t1);
