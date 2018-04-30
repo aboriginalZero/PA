@@ -42,12 +42,11 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   rtl_sub(&t2, &id_dest->val, &id_dest->val);
-  rtl_update_ZFSF(&t2, id_dest->width);
   rtl_sltu(&t0, &id_dest->val, &t2);
   // rtl_get_CF(&t1);
   // rtl_sub(&t2, &t2, &t1);
  // operand_write(id_dest, &t2);
-  
+  rtl_update_ZFSF(&t2, id_dest->width);
   // rtl_sltu(&t0, &id_dest->val, &t2);
   // rtl_or(&t0, &t3, &t0);
   rtl_set_CF(&t0);
