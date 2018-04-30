@@ -45,7 +45,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
         rtl_eqi(&temp1,&temp,1);
         rtl_get_SF(&temp2);
         rtl_get_OF(&temp3);
-        temp4=temp2!=temp3?1:0;
+        temp4=temp2!=temp3?0:1;
         rtl_or(dest,&temp1,&temp4);
         break;
     default: panic("should not reach here");
