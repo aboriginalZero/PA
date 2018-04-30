@@ -30,8 +30,8 @@ make_EHelper(xor) {
 
 make_EHelper(or) {
   rtl_or(&t2, &id_dest->val, &id_src->val);
-    printf("id_dest->val:%d\n",id_dest->val);
-  printf("id_src->val:%d\n",id_src->val);
+    printf("id_dest->val:%x\n",id_dest->val);
+  printf("id_src->val:%x\n",id_src->val);
   operand_write(id_dest, &t2);
   rtl_update_ZFSF(&t2,id_dest->width);
   rtl_set_OF(&tzero);
