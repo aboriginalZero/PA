@@ -49,7 +49,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
         rtl_get_ZF(&temp);
         rtl_get_SF(&temp1);
         rtl_get_OF(&temp2);
-        temp3=(temp1!=temp2?1:0);//这边有问题
+        temp3=(temp1!=temp2?1:0);
         rtl_or(dest,&temp,&temp3);
         break;
     default: panic("should not reach here");
