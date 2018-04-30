@@ -204,6 +204,7 @@ static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   rtlreg_t temp=0;
   temp=(*result>>(width*8-1))&0x1;
   // rtl_msb(&t1,result,width);
+  printf("temp:%d\n",temp);
   rtl_set_SF(&temp);
 }
 
