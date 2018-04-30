@@ -29,6 +29,8 @@ make_EHelper(xor) {
 }
 
 make_EHelper(or) {
+   printf("id_dest->val:%x\n",id_dest->val);
+  printf("id_src->val:%x\n",id_src->val);
   rtl_or(&t2, &id_dest->val, &id_src->val);
     printf("id_dest->val:%x\n",id_dest->val);
   printf("id_src->val:%x\n",id_src->val);
