@@ -42,3 +42,4 @@ make_EHelper(cwtl);
 make_EHelper(cltd);
 make_EHelper(div);
 make_EHelper(idiv);
+make_EHelper(neg);
