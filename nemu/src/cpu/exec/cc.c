@@ -3,7 +3,7 @@
 /* Condition Code */
 
 void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
-  // rtlreg_t temp,temp1,temp2,temp3,temp4;
+  rtlreg_t temp,temp1,temp2,temp3,temp4;
   bool invert = subcode & 0x1;
   
   enum {
@@ -26,28 +26,27 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       rtl_get_ZF(dest);
       // printf("cpu.ZF:%d\n",*dest);
       break;
-    }
-        
-    // case CC_BE:
-    //     rtl_get_CF(&temp);
-    //     rtl_get_ZF(&temp1);
-    //     break;
-    // case CC_S:
-    //     rtl_get_SF(dest);
-    //     break;
-    // case CC_L:
-    //     rtl_get_SF(&temp);
-    //     rtl_get_OF(&temp1);
-    //     *dest=(temp!=temp1);
-    //     break;
-    // case CC_LE:
-    //     rtl_get_ZF(&temp);
-    //     rtl_eqi(&temp1,&temp,1);
-    //     rtl_get_SF(&temp2);
-    //     rtl_get_OF(&temp3);
-    //     temp4=temp2!=temp3?1:0;
-    //     rtl_or(dest,&temp1,&temp4);
-    //     break;
+    }  
+    case CC_BE:
+        rtl_get_CF(&temp);
+        rtl_get_ZF(&temp1);
+        break;
+    case CC_S:
+        rtl_get_SF(dest);
+        break;
+    case CC_L:
+        rtl_get_SF(&temp);
+        rtl_get_OF(&temp1);
+        *dest=(temp!=temp1);
+        break;
+    case CC_LE:
+        rtl_get_ZF(&temp);
+        rtl_eqi(&temp1,&temp,1);
+        rtl_get_SF(&temp2);
+        rtl_get_OF(&temp3);
+        temp4=temp2!=temp3?1:0;
+        rtl_or(dest,&temp1,&temp4);
+        break;
     default: panic("should not reach here");
     case CC_P: panic("n86 does not have PF");
   }
