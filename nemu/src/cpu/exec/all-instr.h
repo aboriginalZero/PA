@@ -1,9 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov);
-
 make_EHelper(operand_size);
-
 make_EHelper(inv);
 make_EHelper(nemu_trap);
 make_EHelper(push);
@@ -39,11 +37,12 @@ make_EHelper(call_rm);
 make_EHelper(jmp_rm);
 make_EHelper(sbb);
 make_EHelper(cwtl);
-make_EHelper(cltd);
+
 make_EHelper(div);
 make_EHelper(idiv);
 make_EHelper(in);
 make_EHelper(out);
+make_EHelper(cltd);
 make_EHelper(neg);
 make_EHelper(rol);
 
