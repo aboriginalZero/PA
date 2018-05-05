@@ -137,14 +137,9 @@ static inline void rtl_not(rtlreg_t* dest) {
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  // if((*src1)&(0x1<<(width*8-1))){//若为负数
-  //   rtl_li(&t3,0xfffffffe);
-  //   rtl_shli(&t0,&t3,width*8-1);
-  //   rtl_or(dest,src1,&t0);//左移再或
-  // }else{//正数高位自动扩充0
-  //  rtl_mv(dest,src1); 
-  // }
-  *dest = ((((int32_t)(*src1)) << (8 * (4 - width))) >> (8 * (4 - width)));
+  rtlreg_t temp=(int32_t)(*src1);
+  rtl_shli(&temp,src1,8*(4-width));
+  rtl_sari(dest,&temp,8*(4-width));
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
