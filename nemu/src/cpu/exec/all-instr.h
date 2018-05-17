@@ -46,3 +46,4 @@ make_EHelper(neg);
 make_EHelper(rol);
 make_EHelper(lidt);
 make_EHelper(int);
+make_EHelper(pusha);
