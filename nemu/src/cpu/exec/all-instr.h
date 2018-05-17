@@ -37,7 +37,6 @@ make_EHelper(call_rm);
 make_EHelper(jmp_rm);
 make_EHelper(sbb);
 make_EHelper(cwtl);
-
 make_EHelper(div);
 make_EHelper(idiv);
 make_EHelper(in);
