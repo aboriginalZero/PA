@@ -41,7 +41,21 @@ make_EHelper(pusha) {
 }
 
 make_EHelper(popa) {
-  TODO();
+  rtl_pop(&t0);
+  cpu.edi = t0;
+  rtl_pop(&t0);
+  cpu.esi = t0;
+  rtl_pop(&t0);
+  cpu.ebp = t0;
+  rtl_pop(&t0); // throw esp
+  rtl_pop(&t0);
+  cpu.ebx = t0;
+  rtl_pop(&t0);
+  cpu.edx = t0;
+  rtl_pop(&t0);
+  cpu.ecx = t0;
+  rtl_pop(&t0);
+  cpu.eax = t0;
 
   print_asm("popa");
 }
