@@ -44,4 +44,4 @@ make_EHelper(out);
 make_EHelper(cltd);
 make_EHelper(neg);
 make_EHelper(rol);
-
+make_EHelper(lidt);
