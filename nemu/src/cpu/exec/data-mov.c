@@ -20,22 +20,15 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  t1 = cpu.esp;
-  t0 = cpu.eax;
+  t0=cpu.esp;
+  rtl_push(&cpu.eax);
+  rtl_push(&cpu.ecx);
+  rtl_push(&cpu.edx);
+  rtl_push(&cpu.ebx);
   rtl_push(&t0);
-  t0 = cpu.ecx;
-  rtl_push(&t0);
-  t0 = cpu.edx;
-  rtl_push(&t0);
-  t0 = cpu.ebx;
-  rtl_push(&t0);
-  rtl_push(&t1);
-  t0 = cpu.ebp;
-  rtl_push(&t0);
-  t0 = cpu.esi;
-  rtl_push(&t0);
-  t0 = cpu.edi;
-  rtl_push(&t0);
+  rtl_push(&cpu.ebp);
+  rtl_push(&cpu.esi);
+  rtl_push(&cpu.edi);
 
   print_asm("pusha");
 }
