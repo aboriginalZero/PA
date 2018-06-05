@@ -49,20 +49,20 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
    	case FD_STDIN:
     case FD_STDOUT:
    	case FD_STDERR:
-		  len = 0;
+		  len=0;
 		  break;
    	case FD_EVENTS:
-		  len = events_read((void *)buf,len);
+		  len=events_read((void *)buf,len);
 		  break;
    	case FD_DISPINFO:
       if(file_table[fd].open_offset>=file_table[fd].size)
 		    return 0;
-		if(file_table[fd].open_offset+len>file_table[fd].size)
-		  len=file_table[fd].size-file_table[fd].open_offset;
-      ramdisk_read(buf,file_table[fd].open_offset,len);
-		  // dispinfo_read(buf,file_table[fd].open_offset,len);
-		  file_table[fd].open_offset += len;
-		  break;
+      if(file_table[fd].open_offset+len>file_table[fd].size)
+        len=file_table[fd].size-file_table[fd].open_offset;
+        // ramdisk_read(buf,file_table[fd].open_offset,len);
+        dispinfo_read(buf,file_table[fd].open_offset,len);
+        file_table[fd].open_offset += len;
+        break;
     default:
       // panic("fs_read函数出错\n");
 		  if(file_table[fd].open_offset >= file_table[fd].size)
