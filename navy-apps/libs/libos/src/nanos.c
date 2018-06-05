@@ -43,10 +43,10 @@ void *_sbrk(intptr_t increment){
   // _end = new_end;
   // return old_end;
   // return (void *)-1;
-  // Log("%d\n",increment);
+  Log("%d\n",increment);
   if(increment == 0){
     //program_break = &end;
- // Log("%d\n",increment);
+ Log("%d\n",increment);
     return (void *)program_break;
   }else{
     uint32_t old_program_break; 
@@ -54,7 +54,7 @@ void *_sbrk(intptr_t increment){
     program_break = program_break +increment ;
     int result = _syscall_(SYS_brk, program_break, 0, 0);
     if(result !=0) return (void *)-1;
- // Log("%d\n",increment);
+ Log("%d\n",increment);
     return (void *)old_program_break;
   }
 }
