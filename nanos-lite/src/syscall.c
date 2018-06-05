@@ -1,7 +1,6 @@
 #include "common.h"
 #include "syscall.h"
 
-// extern char _end;
 
 uintptr_t sys_write(int fd, const void *buf, size_t len) {
 	int i=0;
