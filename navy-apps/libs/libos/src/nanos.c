@@ -34,10 +34,12 @@ void *_sbrk(intptr_t increment){
   char *_end = &end;
   char *new_end = _end + increment;
   int ret = _syscall_(SYS_brk, (uintptr_t)new_end, 0, 0);
-  if (ret != 0) return (void *)-1;
-  char *old_end = _end;
-  _end = new_end;
-  return old_end;
+  if(ret==0){
+    char *old_end = _end;
+    _end = new_end;
+    return old_end;
+  }
+  return (void *)-1;  
 }
 
 int _read(int fd, void *buf, size_t count) {

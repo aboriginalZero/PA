@@ -31,12 +31,10 @@ _RegSet* do_syscall(_RegSet *r) {
       break;
     }
     case SYS_write:{
-      // Log("it's writelog\n");
       ret = sys_write(a[1], (void *)a[2], a[3]);
 			break;  
     }
     case SYS_brk:{
-      // Log("it's brklog\n");
       ret = 0;
 			break;
     }
