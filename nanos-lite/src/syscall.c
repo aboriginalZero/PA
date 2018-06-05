@@ -8,7 +8,7 @@ uintptr_t sys_write(int fd, const void *buf, size_t len) {
 	if (fd == 1 || fd == 2) {
 		for(; len > 0; len--) {
 			_putc(((char*)buf)[i]);
-      Log("it's log\n");
+      // Log("it's log\n");
 			i++;
 		}
 	}
