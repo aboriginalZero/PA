@@ -1,19 +1,19 @@
 #include "common.h"
 #include "syscall.h"
 
-
 extern char _end;
+
 uintptr_t sys_write(int fd, const void *buf, size_t len) {
-	uintptr_t i = 0;
-	if (fd == 1 || fd == 2) {
-		for(; len > 0; len--) {
+	int i=0;
+	if (fd==1||fd==2){
+		for(;len>0;len--,i++){
 			_putc(((char*)buf)[i]);
-      // Log("it's log\n");
-			i++;
+      Log("it's log\n");
 		}
 	}
 	return i;
 }
+
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4],ret=-1;
