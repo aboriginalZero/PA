@@ -92,8 +92,8 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
 		case FD_STDOUT:
 		case FD_STDERR:
 			// call _putc()
-			for(int i = 0; i < len; i++) {
-					_putc(((char*)buf)[i]);
+			for(int i=0;i<len;i++) {
+				_putc(((char*)buf)[i]);
 			}
 			break;
 		case FD_FB:
