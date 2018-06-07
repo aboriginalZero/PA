@@ -70,13 +70,13 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 		default:
 			// Log("in the fs_read default\n");
 			if(file_table[fd].open_offset >= fs_size || len == 0){
-				Log("1111");
+				// Log("1111");
 				return 0;
 			}
 				
 			if(file_table[fd].open_offset + len > fs_size)
 				len = fs_size - file_table[fd].open_offset;
-			// Log("111");
+			Log("111");
 			ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
 			file_table[fd].open_offset += len;
 			break;
