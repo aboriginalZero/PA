@@ -52,6 +52,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 	switch(fd) {
 		case FD_STDOUT:
 		case FD_FB:
+		len=0;
 			// Log("in the fs_read fd_fb\n");
 			break;
 		case FD_EVENTS:
