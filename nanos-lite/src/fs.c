@@ -55,9 +55,11 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			//Log("in the fs_read fd_fb\n");
 			break;
 		case FD_EVENTS:
+			Log("in the fs_read FD_EVENTS\n");
 			len = events_read((void *)buf, len);
 			break;
 		case FD_DISPINFO:
+		Log("in the fs_read FD_DISPINFO\n");
 			if (file_table[fd].open_offset >= file_table[fd].size)
 				return 0;
 			if (file_table[fd].open_offset + len > file_table[fd].size)
@@ -66,6 +68,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			file_table[fd].open_offset += len;	
 			break;
 		default:
+			Log("in the fs_read default\n");
 			if(file_table[fd].open_offset >= fs_size || len == 0)
 				return 0;
 			if(file_table[fd].open_offset + len > fs_size)
@@ -96,11 +99,11 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
 				_putc(((char*)buf)[i]);
 			}
 			break;
-		case FD_FB:
-			// write to frame buffer
-			fb_write(buf, file_table[fd].open_offset, len);
-			file_table[fd].open_offset += len;
-			break;
+		// case FD_FB:
+		// 	// write to frame buffer
+		// 	fb_write(buf, file_table[fd].open_offset, len);
+		// 	file_table[fd].open_offset += len;
+		// 	break;
 		default:
 			// write to ramdisk
 			if(file_table[fd].open_offset >= fs_size)
