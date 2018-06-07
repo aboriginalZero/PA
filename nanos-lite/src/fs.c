@@ -60,17 +60,20 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			break;
 		case FD_DISPINFO:
 		// Log("in the fs_read FD_DISPINFO\n");
-			if (file_table[fd].open_offset >= file_table[fd].size)
+			if (file_table[fd].open_offset >= fs_size)
 				return 0;
-			if (file_table[fd].open_offset + len > file_table[fd].size)
-				len = file_table[fd].size - file_table[fd].open_offset;
+			if (file_table[fd].open_offset + len > fs_size)
+				len = fs_size- file_table[fd].open_offset;
 			dispinfo_read(buf, file_table[fd].open_offset, len);
 			file_table[fd].open_offset += len;	
 			break;
 		default:
 			// Log("in the fs_read default\n");
-			if(file_table[fd].open_offset >= fs_size || len == 0)
+			if(file_table[fd].open_offset >= fs_size || len == 0){
+				Log("1111");
 				return 0;
+			}
+				
 			if(file_table[fd].open_offset + len > fs_size)
 				len = fs_size - file_table[fd].open_offset;
 			// Log("111");

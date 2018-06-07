@@ -14,7 +14,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
   // //把这个地址作为程序的入口返回即可.
   // ramdisk_read(DEFAULT_ENTRY,0,get_ramdisk_size());
 
-  filename="/bin/bmptest";
+  filename="/bin/hello";
   int fd = fs_open(filename, 0, 0);
 	printf("fd = %d\n", fd);
 	fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd)); 
