@@ -36,14 +36,18 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
-  for (int i=0;i<NR_FILES;i++) {
-    if(strcmp(pathname, file_table[i].name)==0){
-      file_table[i].open_offset = 0;
-      return i;
-    }
-  }
-  panic("can't find the file\n");
-  return -1;
+  int i;
+	//Log("the total files : %d\n", NR_FILES);
+	//Log("pathname %s\n", pathname);
+	for (i = 0; i < NR_FILES; i++) {
+		//printf("file name: %s\n", file_table[i].name);
+		if (strcmp(file_table[i].name, pathname) == 0) {
+			return i;
+		}
+	}
+	//Log("i am here~~\n");
+	assert(0);
+	return -1;
 }
 
 ssize_t fs_read(int fd, void *buf, size_t len) {
