@@ -52,7 +52,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 	switch(fd) {
 		case FD_STDOUT:
 		case FD_FB:
-			//Log("in the fs_read fd_fb\n");
+			Log("in the fs_read fd_fb\n");
 			break;
 		case FD_EVENTS:
 			Log("in the fs_read FD_EVENTS\n");
@@ -78,7 +78,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			break;
 	}
 	return len;
-	Log("111");
+	// Log("111");
 }
 
 size_t fs_filesz(int fd) {
