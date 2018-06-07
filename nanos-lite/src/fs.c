@@ -52,14 +52,14 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 	switch(fd) {
 		case FD_STDOUT:
 		case FD_FB:
-			Log("in the fs_read fd_fb\n");
+			// Log("in the fs_read fd_fb\n");
 			break;
 		case FD_EVENTS:
-			Log("in the fs_read FD_EVENTS\n");
+			// Log("in the fs_read FD_EVENTS\n");
 			len = events_read((void *)buf, len);
 			break;
 		case FD_DISPINFO:
-		Log("in the fs_read FD_DISPINFO\n");
+		// Log("in the fs_read FD_DISPINFO\n");
 			if (file_table[fd].open_offset >= file_table[fd].size)
 				return 0;
 			if (file_table[fd].open_offset + len > file_table[fd].size)
@@ -68,12 +68,12 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			file_table[fd].open_offset += len;	
 			break;
 		default:
-			Log("in the fs_read default\n");
+			// Log("in the fs_read default\n");
 			if(file_table[fd].open_offset >= fs_size || len == 0)
 				return 0;
 			if(file_table[fd].open_offset + len > fs_size)
 				len = fs_size - file_table[fd].open_offset;
-			Log("111");
+			// Log("111");
 			ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
 			file_table[fd].open_offset += len;
 			break;
