@@ -100,11 +100,11 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
 				_putc(((char*)buf)[i]);
 			}
 			break;
-		// case FD_FB:
-		// 	// write to frame buffer
-		// 	fb_write(buf, file_table[fd].open_offset, len);
-		// 	file_table[fd].open_offset += len;
-		// 	break;
+		case FD_FB:
+			// write to frame buffer
+			fb_write(buf, file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			break;
 		default:
 			// write to ramdisk
 			if(file_table[fd].open_offset >= fs_size)
