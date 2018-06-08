@@ -56,14 +56,14 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 		case FD_STDOUT:
 		case FD_FB:
 		len=0;
-			// Log("in the fs_read fd_fb\n");
+			Log("in the fs_read fd_fb\n");
 			break;
 		case FD_EVENTS:
-			// Log("in the fs_read FD_EVENTS\n");
+			Log("in the fs_read FD_EVENTS\n");
 			len = events_read((void *)buf, len);
 			break;
 		case FD_DISPINFO:
-		// Log("in the fs_read FD_DISPINFO\n");
+		Log("in the fs_read FD_DISPINFO\n");
 			if (file_table[fd].open_offset >= fs_size)
 				return 0;
 			if (file_table[fd].open_offset + len > fs_size)
@@ -72,7 +72,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			file_table[fd].open_offset += len;	
 			break;
 		default:
-			// Log("in the fs_read default\n");
+			Log("in the fs_read default\n");
 			if(file_table[fd].open_offset >= fs_size || len == 0){
 				// Log("1111");
 				return 0;
