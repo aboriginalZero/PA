@@ -142,6 +142,7 @@ off_t fs_lseek(int fd, off_t offset, int whence) {
 			}
 			break;
 		case SEEK_END:
+		Log("111111\n");
 			file_table[fd].open_offset = file_table[fd].size + offset;
 			result = file_table[fd].open_offset;
 			break;
