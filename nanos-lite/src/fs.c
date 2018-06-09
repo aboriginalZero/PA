@@ -180,13 +180,14 @@ int fs_open(const char *pathname, int flags, int mode) {
 		}
 	}
 	//Log("i am here~~\n");
-	assert(0);
+	// assert(0);
+	panic("can't find the file\n");
 	return -1;
 }
 
 ssize_t fs_read(int fd, void *buf, size_t len) {
 	ssize_t fs_size = fs_filesz(fd);
-	//Log("in the read, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, fs_size, len, file_table[fd].open_offset);
+	Log("in the read, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, fs_size, len, file_table[fd].open_offset);
 	switch(fd) {
 		case FD_STDOUT:
 		case FD_FB:
