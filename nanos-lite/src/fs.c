@@ -53,11 +53,11 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 		case FD_STDERR:
 			break;
 		case FD_EVENTS:
-			Log("ccccc\n");
+			// Log("ccccc\n");
 			len = events_read((void *)buf, len);
 			break;
 		case FD_DISPINFO:{
-			Log("bbbbbb\n");
+			// Log("bbbbbb\n");
 			if (file_table[fd].open_offset>=fs_size)
 				return 0;
 			if(len>fs_size-file_table[fd].open_offset)
@@ -67,7 +67,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			break;
 		}
 		default:
-			Log("aaaaaa\n");
+			// Log("aaaaaa\n");
 			if(file_table[fd].open_offset>=fs_size||len==0)
 				return 0;
 			if(len>fs_size-file_table[fd].open_offset)
