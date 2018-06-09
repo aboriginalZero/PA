@@ -18,26 +18,9 @@ size_t events_read(void *buf, size_t len) {
 	if(key!=_KEY_NONE){
 		sprintf(buf,"%s %s\n",flag?"kd":"ku",keyname[key]);
 	}else{
-		unsigned long cur_time=_uptime();
-		sprintf(buf,"t %d\n",cur_time);
+		sprintf(buf,"t %d\n",_uptime());
 	}
 	return strlen(buf);
-	// int key = _read_key();
-	// bool down = false;
-	// //Log("key = %d\n", key);
-	// if (key & 0x8000) {
-	// 	key ^= 0x8000;
-	// 	down = true;
-	// }
-	// if (key == _KEY_NONE) {
-	// 	unsigned long t = _uptime();
-	// 	sprintf(buf, "t %d\n", t);
-	// }
-	// else {
-	// 	//Log("I am here~\n");
-	// 	sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
-	// }
-	// return strlen(buf)-1;
 }
 
 static char dispinfo[128] __attribute__((used));
