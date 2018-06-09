@@ -21,7 +21,7 @@ size_t events_read(void *buf, size_t len) {
 		unsigned long cur_time=_uptime();
 		sprintf(buf,"t %d\n",cur_time);
 	}
-	return strlen(buf);
+	return strlen(buf)-1;
 }
 
 static char dispinfo[128] __attribute__((used));

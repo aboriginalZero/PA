@@ -54,10 +54,10 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 			break;
 		// case FD_FB:
 		// 	break;
-		// case FD_EVENTS:
-		// 	Log("ccccc\n");
-		// 	len = events_read((void *)buf, len);
-		// 	break;
+		case FD_EVENTS:
+			Log("ccccc\n");
+			len = events_read((void *)buf, len);
+			break;
 		case FD_DISPINFO:{
 			// Log("bbbbbb\n");
 			if (file_table[fd].open_offset>=fs_size)
