@@ -116,29 +116,22 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence) {
-  off_t result = -1;
-
+	ssize_t fs_size = fs_filesz(fd);
 	switch(whence) {
 		case SEEK_SET:
-		Log("22222\n");
-			if (offset >= 0 && offset <= file_table[fd].size) {
+		// Log("22222\n");
+			if(offset>=0&&offset<=file_table[fd].size)
 				file_table[fd].open_offset = offset;
-				result = file_table[fd].open_offset;
-			}
-			break;
+				break;
 		case SEEK_CUR:
-		Log("33333\n");
-			if ((offset + file_table[fd].open_offset >= 0) && 
-					(offset + file_table[fd].open_offset <= file_table[fd].size)) {
-				file_table[fd].open_offset += offset;
-				result = file_table[fd].open_offset;
-			}
-			break;
+		// Log("33333\n");
+			if((offset+file_table[fd].open_offset>=0)&&(offset+file_table[fd].open_offset<=fs_size))
+				file_table[fd].open_offset+=offset;
+				break;
 		case SEEK_END:
-		Log("111111\n");
-	file_table[fd].open_offset = file_table[fd].size + offset;
-			result = file_table[fd].open_offset;	
+		// Log("111111\n");
+			file_table[fd].open_offset = file_table[fd].size + offset;
 			break;
 	}
-	return result;
+	return file_table[fd].open_offset;
 }
