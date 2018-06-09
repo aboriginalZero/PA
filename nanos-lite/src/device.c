@@ -9,16 +9,20 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t len) {
-  int key=_read_key();
-	bool flag=false;
-	if(key&0x8000){
-		key^=0x8000;
-		flag=true;
+  int key = _read_key();
+	bool down = false;
+	//Log("key = %d\n", key);
+	if (key & 0x8000) {
+		key ^= 0x8000;
+		down = true;
 	}
-	if(key!=_KEY_NONE){
-		sprintf(buf,"%s %s\n",flag?"kd":"ku",keyname[key]);
-	}else{
-		sprintf(buf,"t %d\n",_uptime());
+	if (key == _KEY_NONE) {
+		unsigned long t = _uptime();
+		sprintf(buf, "t %d\n", t);
+	}
+	else {
+		//Log("I am here~\n");
+		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
 	}
 	return strlen(buf);
 }
