@@ -58,15 +58,15 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 		// 	Log("in the fs_read FD_EVENTS\n");
 		// 	len = events_read((void *)buf, len);
 		// 	break;
-		// case FD_DISPINFO:
-		// Log("in the fs_read FD_DISPINFO\n");
-		// 	if (file_table[fd].open_offset >= fs_size)
-		// 		return 0;
-		// 	if(len>fs_size-file_table[fd].open_offset)
-		// 		len = fs_size- file_table[fd].open_offset;
-		// 	dispinfo_read(buf, file_table[fd].open_offset, len);
-		// 	file_table[fd].open_offset += len;	
-		// 	break;
+		case FD_DISPINFO:
+		Log("in the fs_read FD_DISPINFO\n");
+			if (file_table[fd].open_offset >= fs_size)
+				return 0;
+			if(len>fs_size-file_table[fd].open_offset)
+				len = fs_size- file_table[fd].open_offset;
+			dispinfo_read(buf, file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;	
+			break;
 		default:
 			// Log("aaaaaa\n");
 			if(file_table[fd].open_offset>=fs_size||len==0)
@@ -97,17 +97,17 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
 				_putc(((char *)buf)[i]);
 				break;
 		}
-		// case FD_FB:{
-		// 	fb_write(buf, file_table[fd].open_offset, len);
-		// 	file_table[fd].open_offset += len;
-		// 	break;
-		// }	
+		case FD_FB:{
+			fb_write(buf, file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			break;
+		}	
 		default:
 			if(file_table[fd].open_offset>=fs_size)
 				return 0;	
 			if(len>fs_size-file_table[fd].open_offset)
 				len=fs_size-file_table[fd].open_offset;
-			ramdisk_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
+			fb_write(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
 			file_table[fd].open_offset += len;
 			break;
 	}
