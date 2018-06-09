@@ -69,7 +69,7 @@ ssize_t fs_read(int fd, void *buf, size_t len) {
 		// 	file_table[fd].open_offset += len;	
 		// 	break;
 		default:
-			Log("aaaaaa\n");
+			// Log("aaaaaa\n");
 			if(file_table[fd].open_offset>=fs_size||len==0)
 				return 0;
 			if(len>fs_size-file_table[fd].open_offset)
