@@ -42,13 +42,13 @@ void fb_write(const void *buf, off_t offset, size_t len) {
 	// x = offset % _screen.width;
 
 	// _draw_rect((uint32_t *)buf,1,1,x,y);
-	int width = _screen.width;
-	int height=_screen.height;
+	// int width = _screen.width;
+	// int height=_screen.height;
 	len /= 4;
-	offset /= 4;
-	int y = (offset) / width;
-	int x = (offset) % width;
-	_draw_rect((uint32_t *)(buf), (x-width)/2, (y-height)/2, len, 1);
+	// offset /= 4;
+	// int y = (offset) / width;
+	// int x = (offset) % width;
+	_draw_rect((uint32_t *)(buf), 0,0, _screen.width, len / _screen.width);
 	
   // //Log("fb_write x:%d y:%d len:%d\n", x, y, len);
 	// //len /= 4;
