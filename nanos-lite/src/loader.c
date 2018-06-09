@@ -10,13 +10,12 @@ extern int fs_open(const char *pathname, int flags, int mode);
 extern int fs_close(int fd);
 
 uintptr_t loader(_Protect *as, const char *filename) {
-  // //将ramdisk中从0开始的所有内容放置在0x4000000,并
-  // //把这个地址作为程序的入口返回即可.
-  // ramdisk_read(DEFAULT_ENTRY,0,get_ramdisk_size());
+  //ramdisk_read(DEFAULT_ENTRY, 0, get_ramdisk_size());
 
-  int fd = fs_open(filename, 0, 0);
+	int fd = fs_open(filename, 0, 0);
+	printf("fd = %d\n", fd);
 	fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd)); 
-	fs_close(fd); 
-
-  return (uintptr_t)DEFAULT_ENTRY;
+	fs_close(fd);
+	
+	return (uintptr_t)DEFAULT_ENTRY;
 }
