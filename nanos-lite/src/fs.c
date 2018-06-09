@@ -49,10 +49,12 @@ int fs_open(const char *pathname, int flags, int mode){
 ssize_t fs_read(int fd, void *buf, size_t len) {
   ssize_t fs_size=fs_filesz(fd);
 	switch(fd){
+		case FD_STDIN:
 		case FD_STDOUT:
-		case FD_FB:
-			Log("in the fs_read fd_fb\n");
+		case FD_STDERR:
 			break;
+		// case FD_FB:
+		// 	break;
 		// case FD_EVENTS:
 		// 	Log("in the fs_read FD_EVENTS\n");
 		// 	len = events_read((void *)buf, len);
