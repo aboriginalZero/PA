@@ -36,9 +36,6 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
-	Log("the total files : %d\n", NR_FILES);
-	Log("pathname %s\n", pathname);
-
   for (int i=0;i<NR_FILES;i++) {
     if(strcmp(pathname, file_table[i].name)==0){
       file_table[i].open_offset = 0;
@@ -50,27 +47,25 @@ int fs_open(const char *pathname, int flags, int mode){
 }
 
 ssize_t fs_read(int fd, void *buf, size_t len) {
-  ssize_t fs_size = fs_filesz(fd);
-	Log("in the read, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, fs_size, len, file_table[fd].open_offset);
-	switch(fd) {
+  ssize_t fs_size=fs_filesz(fd);
+	switch(fd){
 		case FD_STDOUT:
 		case FD_FB:
-		len=0;
 			Log("in the fs_read fd_fb\n");
 			break;
-		case FD_EVENTS:
-			Log("in the fs_read FD_EVENTS\n");
-			len = events_read((void *)buf, len);
-			break;
-		case FD_DISPINFO:
-		Log("in the fs_read FD_DISPINFO\n");
-			if (file_table[fd].open_offset >= fs_size)
-				return 0;
-			if (file_table[fd].open_offset + len > fs_size)
-				len = fs_size- file_table[fd].open_offset;
-			dispinfo_read(buf, file_table[fd].open_offset, len);
-			file_table[fd].open_offset += len;	
-			break;
+		// case FD_EVENTS:
+		// 	Log("in the fs_read FD_EVENTS\n");
+		// 	len = events_read((void *)buf, len);
+		// 	break;
+		// case FD_DISPINFO:
+		// Log("in the fs_read FD_DISPINFO\n");
+		// 	if (file_table[fd].open_offset >= fs_size)
+		// 		return 0;
+		// 	if (file_table[fd].open_offset + len > fs_size)
+		// 		len = fs_size- file_table[fd].open_offset;
+		// 	dispinfo_read(buf, file_table[fd].open_offset, len);
+		// 	file_table[fd].open_offset += len;	
+		// 	break;
 		default:
 			Log("in the fs_read default\n");
 			if(file_table[fd].open_offset >= fs_size || len == 0){

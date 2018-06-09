@@ -38,14 +38,6 @@ void *_sbrk(intptr_t increment){
     return (void *)old_pb;
   }
   return (void *)-1;
-  // intptr_t old_pb = pb;
-  // if (_syscall_(SYS_brk, old_pb + increment, 0, 0) == 0) {
-	// 	pb += increment;	
-	// 	return (void *)old_pb;
-	// }
-	// else {
-	// 	return (void *)-1;
-	// }
 }
 
 int _read(int fd, void *buf, size_t count) {
