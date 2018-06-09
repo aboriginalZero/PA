@@ -34,14 +34,20 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 }
 
 void fb_write(const void *buf, off_t offset, size_t len) {
-  int x, y;
-	// int len1, len2, len3;
-	//offset /= 4;
-	offset = offset >> 2;
-	y = offset / _screen.width;
-	x = offset % _screen.width;
+  // int x, y;
+	// // int len1, len2, len3;
+	// //offset /= 4;
+	// offset = offset >> 2;
+	// y = offset / _screen.width;
+	// x = offset % _screen.width;
 
-	_draw_rect((uint32_t *)buf,1,1,x,y);
+	// _draw_rect((uint32_t *)buf,1,1,x,y);
+	int width = _screen.width;
+	len /= 4;
+	offset /= 4;
+	int y = (offset) / width;
+	int x = (offset) % width;
+	_draw_rect((uint32_t *)(buf), x, y, len, 1);
 	
   // //Log("fb_write x:%d y:%d len:%d\n", x, y, len);
 	// //len /= 4;
