@@ -37,7 +37,7 @@ size_t events_read(void *buf, size_t len) {
 		//Log("I am here~\n");
 		sprintf(buf, "%s %s\n", down ? "kd" : "ku", keyname[key]);
 	}
-	return strlen(buf);
+	return strlen(buf)-1;
 }
 
 static char dispinfo[128] __attribute__((used));
