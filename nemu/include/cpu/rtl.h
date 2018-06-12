@@ -137,8 +137,8 @@ static inline void rtl_not(rtlreg_t* dest) {
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  rtlreg_t temp=(int32_t)(*src1);
-  rtl_shli(&temp,src1,8*(4-width));
+  rtlreg_t temp=(int32_t)(*src1);  //符号扩展
+  rtl_shli(&temp,src1,8*(4-width));//先左移再按符号位扩展，再右移
   rtl_sari(dest,&temp,8*(4-width));
 }
 
@@ -173,7 +173,7 @@ static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  
+  //把最高位移到末位再跟1相与，可知其符号位
   rtl_li(dest,((*src1)>>(width*8-1))&0x1);
 }
 
