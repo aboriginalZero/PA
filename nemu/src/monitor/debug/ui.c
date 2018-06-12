@@ -127,8 +127,9 @@ void printALlRegisters(){
     printf("cpu.CF:%x cpu.OF:%x cpu.SF:%x cpu.ZF:%x\n",cpu.CF,cpu.OF,cpu.SF,cpu.ZF);
 }
 static int cmd_info(char *args){
-  printf("%s\n",args);	
-    char *temp=strtok(args," ");//以空格为分隔符分解args
+  //strtok第一个参数为NULL时
+  //该函数默认使用上一次未分割完的字符串的未分割的起始位置作为本次分割的起始位置
+    char *temp=strtok(NULL," ");
     if(strcmp(temp,"r")==0)
     	printALlRegisters();
   	else if(strcmp(temp,"w")==0)
@@ -141,7 +142,7 @@ static int cmd_x(char *args){
 	char *temp_2=strtok(NULL," ");
 	int n;
 	vaddr_t addr;
-	sscanf(temp,"%d",&n);
+	sscanf(temp,"%d",&n);//把字符串变成整数
 	sscanf(temp_2,"%x",&addr);
   printf("Address               Big-Endian      Little-Endian\n");
   for(int i=0;i<n;i++){
@@ -173,7 +174,6 @@ static int cmd_d(char *args){
   	free_wp(wp);
   return 1;
 }
-
 
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {

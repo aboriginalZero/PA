@@ -181,12 +181,12 @@ int searchDominantOperator(int p,int q){
 	for(int i=p;i<=q;i++){
 		if(tokens[i].type=='(') cnt++;
 		else if(tokens[i].type==')') cnt--;
-		//出现在括号中的 and 非运算符
+		//出现在括号中的 and 非运算符不需要处理
 		else if(cnt!=0||tokens[i].type==TK_NUM_16||tokens[i].type==TK_NUM_8
 					  ||tokens[i].type==TK_NUM_10) continue;
-		//这边暂且不处理单目运算符
+		//处理双目运算符
 		else if(cnt==0){
-			
+			//符号有优先级之分
 			if(tokens[i].type=='*'||tokens[i].type=='/'||tokens[i].type=='%'){
 				if(op_type!='+'&&op_type!='-'&&op_type!=LMOVE&&op_type!=RMOVE&&op_type!=BE&&
 				op_type!=SE&&op_type!='>'&&op_type!='<'&&op_type!=TK_FEQ&&op_type!=TK_EQ&&
@@ -231,7 +231,7 @@ uint32_t eval(int p,int q){
     printf("Bad expression_1!\n");
     assert(0);
   }
-	else if(p==q){
+	else if(p==q){//说明是数字，取数即可
 		uint32_t sum=-99999;
     if(tokens[p].type==TK_NUM_10){
         sscanf(tokens[p].str,"%d",&sum);	
@@ -330,6 +330,7 @@ bool judge(int x){
 }
 
 uint32_t expr(char *e) {
+	//词法分析
 	if(!make_token(e)) {
     	return 0;
     }	
