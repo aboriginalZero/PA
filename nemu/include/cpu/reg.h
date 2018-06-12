@@ -15,6 +15,7 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
+  // 通用寄存器
   union{
     union {
       uint32_t _32;
@@ -29,7 +30,9 @@ typedef struct {
       rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
     };
   };
+  // 指令指针寄存器
   vaddr_t eip;
+  // 标志寄存器
   union{
 		uint32_t value;
 		struct{
@@ -44,7 +47,9 @@ typedef struct {
       uint32_t :20;
 		};
 	};
+  // 代码段
   uint32_t CS;
+  // 中断描述符表
   struct{
     uint16_t Limit;
     uint32_t Base;
