@@ -127,7 +127,7 @@ void printALlRegisters(){
     printf("cpu.CF:%x cpu.OF:%x cpu.SF:%x cpu.ZF:%x\n",cpu.CF,cpu.OF,cpu.SF,cpu.ZF);
 }
 static int cmd_info(char *args){
-    char *temp=strtok(NULL," ");
+    char *temp=strtok(args," ");
     if(strcmp(temp,"r")==0)
     	printALlRegisters();
   	else if(strcmp(temp,"w")==0)
