@@ -4,24 +4,12 @@ void diff_test_skip_qemu();
 void diff_test_skip_nemu();
 extern void raise_intr(uint8_t NO, vaddr_t ret_addr);
 
-// make_EHelper(lidt) {
-//   cpu.IDTR.Limit=vaddr_read(id_dest->addr,2);
-//   uint32_t temp=vaddr_read(id_dest->addr+2,4);
-//   if(id_dest->width==4){
-//     cpu.IDTR.Base=temp&0xffffff;
-//   }else{
-//     cpu.IDTR.Base=temp&0xffffffff;
-//   }
-//   print_asm_template1(lidt);
-// }
-
 make_EHelper(lidt) {
-	cpu.IDTR.Limit = vaddr_read(id_dest->addr, 2);
-	if (decoding.is_operand_size_16) {
-		cpu.IDTR.Base = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
-	}
-	else {
-		cpu.IDTR.Base = vaddr_read(id_dest->addr + 2, 4);	
+	cpu.IDTR.Limit=vaddr_read(id_dest->addr,2);
+	if (decoding.is_operand_size_16){
+		cpu.IDTR.Base=vaddr_read(id_dest->addr+2,4)&0x00ffffff;
+	}else{
+		cpu.IDTR.Base=vaddr_read(id_dest->addr+2,4);	
 	}
   print_asm_template1(lidt);
 }
@@ -44,7 +32,6 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  // raise_intr(id_dest->val,*eip);
   raise_intr(id_dest->val,decoding.seq_eip);
 
   print_asm("int %s", id_dest->str);
