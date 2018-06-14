@@ -56,7 +56,7 @@ make_EHelper(leave) {
 make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
     rtl_lr(&t0,R_AX,2);
-    rtl_slti(&t0,&t2,0);
+    rtl_slti(&t0,&t0,0);
     if(t0){
       rtl_li(&t1,0xffff);
       rtl_sr(R_DX,2,&t1);
@@ -66,7 +66,7 @@ make_EHelper(cltd) {
   }
   else {
     rtl_lr(&t0,R_EAX,4);
-    rtl_slti(&t0,&t2,0);
+    rtl_slti(&t0,&t0,0);
     if(t0){
       rtl_li(&t1,0xffffffff);
       rtl_sr(R_EDX,4,&t1);
