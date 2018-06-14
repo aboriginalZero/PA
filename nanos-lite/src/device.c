@@ -31,7 +31,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 
 void fb_write(const void *buf, off_t offset, size_t len) {
 	int width=_screen.width;
-	_draw_rect((uint32_t *)(buf),(offset/4)%width,(offset/4)/width,len/4,1);
+	_draw_rect((uint32_t *)(buf),(offset)%width,(offset)/width,len/4,1);
 }
 
 void init_device() {
