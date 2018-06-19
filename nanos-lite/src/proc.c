@@ -10,6 +10,7 @@ uintptr_t loader(_Protect *as, const char *filename);
 
 void load_prog(const char *filename) {
   int i = nr_proc ++;
+  Log("1111\n");
   _protect(&pcb[i].as);
   Log("1111\n");
   uintptr_t entry = loader(&pcb[i].as, filename);
