@@ -38,7 +38,9 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
   if (cpu.cr0.protect_enable){
 		Log("it's a log\n");
     pgdir = (PDE *)(intptr_t)(cpu.cr3.page_directory_base << 12);
+    Log("it's a log\n");
     pde.val = paddr_read((intptr_t)&pgdir[(addr >> 22) & 0x3ff], 4);
+    Log("it's a log\n");
     assert(pde.present);
     pde.accessed = 1;
 
