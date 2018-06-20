@@ -20,7 +20,7 @@ int main() {
 
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
-  Log("qqq\n");
+  // Log("qqq\n");
   init_ramdisk();
   // Log("333\n");
   init_device();
