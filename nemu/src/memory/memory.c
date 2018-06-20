@@ -75,6 +75,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 		assert(0);
   } else {
 		if(cpu.cr0.paging){
+      Log("22222\n");
 			paddr = page_translate(addr, false);
 			return paddr_read(paddr, len);
 		}else{
