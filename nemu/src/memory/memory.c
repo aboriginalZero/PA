@@ -75,7 +75,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   } else {
     // Log("211\n");
     paddr = page_translate(addr, false);
-    Log("addr:%d,paddr:%d\n",addr,paddr);
+    if(addr!=paddr)
+      Log("addr:%d,paddr:%d\n",addr,paddr);
     return paddr_read(paddr, len);
   }
 }
