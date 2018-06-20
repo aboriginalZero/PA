@@ -37,7 +37,8 @@ int main() {
   // // uint32_t entry = loader(NULL, NULL);
   // ((void (*)(void))entry)();
   // Log("1111\n");
-  load_prog("/bin/pal");
+  // load_prog("/bin/pal");
+  load_prog("/bin/videotest");
   // _trap();
 
   panic("Should not reach here");
