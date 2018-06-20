@@ -60,7 +60,7 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   paddr_t paddr;
-
+Log("aaa\n");
   if (CROSS_PAGE(addr, len)) {
     /* data cross the page boundary */
     // union {
@@ -74,7 +74,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
     // return data.dword;
     assert(0);
   } else {
-    // Log("211\n");
+    Log("211\n");
     paddr = page_translate(addr, false);
     return paddr_read(paddr, len);
   }
