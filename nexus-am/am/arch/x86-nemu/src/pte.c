@@ -17,13 +17,10 @@ void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
   pfree_f = pfree;
 
   int i;
-  // printf("qq");
-// Log("1111\n");
   // make all PDEs invalid
   for (i = 0; i < NR_PDE; i ++) {
     kpdirs[i] = 0;
   }
-// Log("1111\n");
   PTE *ptab = kptabs;
   for (i = 0; i < NR_KSEG_MAP; i ++) {
     uint32_t pdir_idx = (uintptr_t)segments[i].start / (PGSIZE * NR_PTE);
@@ -41,7 +38,6 @@ void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
       }
     }
   }
-// Log("1111\n");
   set_cr3(kpdirs);
   set_cr0(get_cr0() | CR0_PG);
 }
@@ -81,6 +77,7 @@ void _map(_Protect *p, void *va, void *pa) {
   }
   pgtab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
 }
+
 
 void _unmap(_Protect *p, void *va) {
 }
