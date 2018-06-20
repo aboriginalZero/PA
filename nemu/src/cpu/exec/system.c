@@ -33,6 +33,7 @@ make_EHelper(mov_cr2r) {
   case 3: t0 = cpu.cr3.val; break;
   default: Assert(0, "unsupported control register");
   }
+  operand_write(id_dest, &t0);
 
   print_asm("movl %%cr%d,%%%s", id_src->reg, reg_name(id_dest->reg, 4));
 
