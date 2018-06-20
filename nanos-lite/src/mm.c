@@ -22,6 +22,6 @@ int mm_brk(uint32_t new_brk) {
 void init_mm() {
   pf = (void *)PGROUNDUP((uintptr_t)_heap.start);
   Log("free physical pages starting from %p", pf);
-
+Log("9999\n");
   _pte_init(new_page, free_page);
 }
