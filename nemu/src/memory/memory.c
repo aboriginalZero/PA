@@ -35,7 +35,7 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
   PDE pde, *pgdir;
   PTE pte, *pgtab;
   paddr_t paddr = addr;
-
+  Log("888\n");
   if (cpu.cr0.protect_enable && cpu.cr0.paging) {
     Log("9999\n");
     pgdir = (PDE *)(intptr_t)(cpu.cr3.page_directory_base << 12);
