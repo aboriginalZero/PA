@@ -28,12 +28,20 @@ make_EHelper(mov_r2cr) {
 
 make_EHelper(mov_cr2r) {
   // TODO();
-  switch (id_src->reg) {
-  case 0: t0 = cpu.cr0.val; break;
-  case 3: t0 = cpu.cr3.val; break;
-  default: Assert(0, "unsupported control register");
+  switch(id_src->reg){
+    case 0:{
+      t0=cpu.cr0.val;
+      break;
+    }
+    case 3:{
+      t0=cpu.cr3.val;
+      break;
+    }
+    default:
+      assert(0);
   }
   operand_write(id_dest, &t0);
+
 
   print_asm("movl %%cr%d,%%%s", id_src->reg, reg_name(id_dest->reg, 4));
 
