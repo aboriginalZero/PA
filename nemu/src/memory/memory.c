@@ -55,12 +55,20 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
   return paddr;
 }
 
+bool judgeCrossPage(vaddr_t addr, int len){
+  vaddr_t naddr=addr+len-1;
+  if((naddr&(~PAGE_MASK))!=(addr&(~PAGE_MASK))){
+    return true;
+  }
+  return false;
+}
+
 #define CROSS_PAGE(addr, len) \
   ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK))
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   paddr_t paddr;
-  if (CROSS_PAGE(addr, len)) {
+  if (judgeCrossPage(addr, len)) {
     /* data cross the page boundary */
     union {
       uint8_t bytes[4];
