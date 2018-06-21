@@ -66,16 +66,16 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   paddr_t paddr;
   if (judgeCrossPage(addr, len)) {
     /* data cross the page boundary */
-    // union {
-    //   uint8_t bytes[4];
-    //   uint32_t dword;
-    // } data = {0};
-    // for (int i = 0; i < len; i++) {
-    //   paddr = page_translate(addr + i, false);
-    //   data.bytes[i] = (uint8_t)paddr_read(paddr, 1);
-    // }
-    // return data.dword;
-    assert(0);
+    union {
+      uint8_t bytes[4];
+      uint32_t dword;
+    } data = {0};
+    for (int i = 0; i < len; i++) {
+      paddr = page_translate(addr + i, false);
+      data.bytes[i] = (uint8_t)paddr_read(paddr, 1);
+    }
+    return data.dword;
+    // assert(0);
   } else {
     // Log("211\n");
     paddr = page_translate(addr, false);
