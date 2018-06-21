@@ -20,25 +20,19 @@ int main() {
 
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
-  // Log("qqq\n");
   init_ramdisk();
-  // Log("333\n");
   init_device();
 
 #ifdef HAS_ASYE
   Log("Initializing interrupt/exception handler...");
   init_irq();
 #endif
-  // Log("444\n");
   init_fs();
+  // uint32_t entry = loader(NULL, NULL);
 
   // uint32_t entry = loader(NULL, "/bin/dummy");
-
-  // // uint32_t entry = loader(NULL, NULL);
   // ((void (*)(void))entry)();
-  // Log("1111\n");
   load_prog("/bin/pal");
-  // _trap();
 
   panic("Should not reach here");
 }
