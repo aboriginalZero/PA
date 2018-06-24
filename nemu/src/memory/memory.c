@@ -60,42 +60,45 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  paddr_t paddr;
-  if (judgeCrossPage(addr, len)) {
-    /* data cross the page boundary */
-    union {
-      uint8_t bytes[4];
-      uint32_t dword;
-    } data = {0};
-    for (int i = 0; i < len; i++) {
-      paddr = page_translate(addr + i, false);
-      data.bytes[i] = (uint8_t)paddr_read(paddr, 1);
-    }
-    return data.dword;
-    // assert(0);
-  } else {
-    // Log("211\n");
-    paddr = page_translate(addr, false);
-    // if(addr!=paddr)
-      // Log("addr:%d,paddr:%d\n",addr,paddr);
-    return paddr_read(paddr, len);
+  if(cpu.cr0.paging==0)
+  {
+          uint32_t left=(addr&0xfff)-0x1000;
+          if(len>left)
+          {
+                paddr_t paddr=page_translate(addr,false);
+                uint32_t low=paddr_read(paddr,left);
+                uint32_t newAddr=(addr+0x1000)&~0xfff;
+                paddr=page_translate(newAddr,false);
+                uint32_t high=paddr_read(paddr,len-left);
+                return high<<(left*8)|low;
+          }
+          else{
+          paddr_t paddr=page_translate(addr,false);
+          return paddr_read(paddr, len);
+         }
   }
+  else
+          return paddr_read(addr, len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  paddr_t paddr;
+  if(cpu.cr0.paging==0){
 
-  if (judgeCrossPage(addr, len)) {
-    /* data cross the page boundary */
-    // assert(0);
-    for (int i = 0; i < len; i++) {
-      paddr = page_translate(addr, true);
-      paddr_write(paddr, 1, data);
-      data >>= 8;
-      addr++;
-    }
-  } else {
-    paddr = page_translate(addr, true);
-    paddr_write(paddr, len, data);
+          uint32_t left=(addr&0xfff)-0x1000;
+          if(len>left)
+          {
+                paddr_t paddr=page_translate(addr,false);
+                paddr_write(paddr,left,(data<<((len-left)*8))>>((len-left)*8));
+                uint32_t newAddr=(addr+0x1000)&~0xfff;
+                paddr=page_translate(newAddr,false);
+                paddr_write(paddr,left,data>>(left*8));
+          }
+          else{
+         paddr_t paddr=page_translate(addr,true);
+         paddr_write(paddr, len, data);
+        }
   }
-}
+  else
+         paddr_write(addr, len, data);
+
+ }

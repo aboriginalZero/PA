@@ -27,13 +27,10 @@ int mm_brk(uint32_t new_brk) {
         pa = (uintptr_t)new_page();
         _map(&current->as, (void *)va, (void *)pa);
       }
-
       current->max_brk = va;
-    }
-
+    } 
     current->cur_brk = new_brk;
   }
-
   return 0;
 }
 
