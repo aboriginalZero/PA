@@ -10,11 +10,11 @@ uintptr_t loader(_Protect *as, const char *filename);
 
 void load_prog(const char *filename) {
   int i = nr_proc ++;
-  // Log("1111\n");
   _protect(&pcb[i].as);
-  // Log("1111\n");
+
   uintptr_t entry = loader(&pcb[i].as, filename);
 
+  // TODO: remove the following three lines after you have implemented _umake()
   // _switch(&pcb[i].as);
   // current = &pcb[i];
   // ((void (*)(void))entry)();
@@ -27,13 +27,13 @@ void load_prog(const char *filename) {
 }
 
 static PCB *current_game = &pcb[0];
-
-// void switch_game() {
-//   current_game = (current_game == &pcb[0] ? &pcb[2] : &pcb[0]);
-// }
+void switch_game() {
+  current_game = (current_game == &pcb[0] ? &pcb[2] : &pcb[0]);
+}
 
 _RegSet* schedule(_RegSet *prev) {
-  // save the context pointer
+
+	// save the context pointer
 	current->tf = prev;
 
 	// always select pcb[0] as the new process
