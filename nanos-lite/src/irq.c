@@ -10,6 +10,7 @@ static _RegSet* do_event(_Event e, _RegSet* r) {
       break;
     }
     case _EVENT_TRAP:{
+      panic(" qqqqqqqqq = %d", e.event);
       ret=schedule(r);
       break;
     }
