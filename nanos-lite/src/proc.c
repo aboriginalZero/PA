@@ -13,17 +13,17 @@ void load_prog(const char *filename) {
   // Log("1111\n");
   _protect(&pcb[i].as);
   // Log("1111\n");
-  uintptr_t entry = loader(&pcb[i].as, filename);
+  // uintptr_t entry = loader(&pcb[i].as, filename);
 
   // _switch(&pcb[i].as);
   // current = &pcb[i];
   // ((void (*)(void))entry)();
 
-  _Area stack;
-  stack.start = pcb[i].stack;
-  stack.end = stack.start + sizeof(pcb[i].stack);
+  // _Area stack;
+  // stack.start = pcb[i].stack;
+  // stack.end = stack.start + sizeof(pcb[i].stack);
 
-  pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
+  // pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
 static PCB *current_game = &pcb[0];
