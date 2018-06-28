@@ -1,4 +1,6 @@
 #include <x86.h>
+#include <arch.h>
+
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
 static PDE kpdirs[NR_PDE] PG_ALIGN;
@@ -17,10 +19,12 @@ void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
   pfree_f = pfree;
 
   int i;
+
   // make all PDEs invalid
   for (i = 0; i < NR_PDE; i ++) {
     kpdirs[i] = 0;
   }
+
   PTE *ptab = kptabs;
   for (i = 0; i < NR_KSEG_MAP; i ++) {
     uint32_t pdir_idx = (uintptr_t)segments[i].start / (PGSIZE * NR_PTE);
@@ -38,6 +42,7 @@ void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
       }
     }
   }
+
   set_cr3(kpdirs);
   set_cr0(get_cr0() | CR0_PG);
 }
@@ -64,6 +69,7 @@ void _switch(_Protect *p) {
 void _map(_Protect *p, void *va, void *pa) {
   PDE *pde, *pgdir = p->ptr;
   PTE *pgtab;
+
   pde = &pgdir[PDX(va)];
   if (*pde & PTE_P) {
     pgtab = (PTE *)PTE_ADDR(*pde);
@@ -77,12 +83,11 @@ void _map(_Protect *p, void *va, void *pa) {
   pgtab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
 }
 
-
 void _unmap(_Protect *p, void *va) {
 }
 
 _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *const argv[], char *const envp[]) {
- struct { _RegSet *tf; } *pcb = ustack.start;
+  struct { _RegSet *tf; } *pcb = ustack.start;
 
   uint32_t *stack = (uint32_t *)(ustack.end - 4);
 
