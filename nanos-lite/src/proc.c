@@ -28,9 +28,9 @@ void load_prog(const char *filename) {
 
 static PCB *current_game = &pcb[0];
 
-void switch_game() {
-  current_game = (current_game == &pcb[0] ? &pcb[2] : &pcb[0]);
-}
+// void switch_game() {
+//   current_game = (current_game == &pcb[0] ? &pcb[2] : &pcb[0]);
+// }
 
 _RegSet* schedule(_RegSet *prev) {
   // save the context pointer
