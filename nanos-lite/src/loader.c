@@ -1,7 +1,7 @@
 #include "common.h"
 #include "memory.h"
 #include "fs.h"
-//这边一直没有修改造成
+
 #define DEFAULT_ENTRY ((void *)0x8048000)
 extern uint8_t ramdisk_start;
 extern uint8_t ramdisk_end;
