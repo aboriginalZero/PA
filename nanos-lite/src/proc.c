@@ -31,12 +31,21 @@ static PCB *current_game = &pcb[0];
 //   current_game = (current_game == &pcb[0] ? &pcb[2] : &pcb[0]);
 // }
 
+static int count=0;
+
 _RegSet* schedule(_RegSet *prev) {
   // save the context pointer
 	current->tf = prev;
 
 	// always select pcb[0] as the new process
-  current = (current == current_game ? &pcb[1] : current_game);
+  // current = (current == current_game ?&pcb[1]  : current_game);
+  count++;
+  if(count%1000==0){
+    current=&pcb[1];
+  }else{
+    current=current_game;
+  }
+  
 
 	// TODO: switch to the new address space,
 	// then return the new context
