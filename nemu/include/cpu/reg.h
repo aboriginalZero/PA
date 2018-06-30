@@ -58,6 +58,9 @@ typedef struct {
   //实现分页机制
   CR0 cr0;
   CR3 cr3;
+  //实现中断异常
+  bool INTR;
+  
 } CPU_state;
 
 extern CPU_state cpu;
