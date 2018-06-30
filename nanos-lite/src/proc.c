@@ -40,7 +40,7 @@ _RegSet* schedule(_RegSet *prev) {
 	// always select pcb[0] as the new process
   // current = (current == current_game ?&pcb[1]  : current_game);
   count++;
-  if(count%1000==0){
+  if(count%10000==0){
     current=&pcb[1];
   }else{
     current=current_game;
