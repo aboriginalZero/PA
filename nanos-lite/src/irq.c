@@ -16,7 +16,7 @@ static _RegSet* do_event(_Event e, _RegSet* r) {
       break;
     }
     case _EVENT_IRQ_TIME:{
-      // Log("this is event_irq_time \n");
+      Log("this is event_irq_time \n");
       ret=schedule(r);
       break;
     }
