@@ -28,12 +28,15 @@ void load_prog(const char *filename) {
 
 static int count=0;
 _RegSet* schedule(_RegSet *prev) {
+
   // save the context pointer
 	current->tf = prev;
 
 	// always select pcb[0] as the new process
+   current =&pcb[0];
+   current=(current==&pcb[0] ?&pcb[1]:&pcb[0]);
   count++;
-  if(count%10000==0){
+  if(count%1==0){
     current=&pcb[1];
   }else{
     current=&pcb[0];
