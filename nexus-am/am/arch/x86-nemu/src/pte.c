@@ -62,19 +62,20 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
-  PDE *pde, *pgdir = p->ptr;
-  PTE *pgtab;
-  pde = &pgdir[PDX(va)];
-  if (*pde & PTE_P) {
-    pgtab = (PTE *)PTE_ADDR(*pde);
+  PDE *pde, *pgdir = p->ptr;//页目录项基地址
+  PTE *pgtab;               //页表项基地址
+  pde = &pgdir[PDX(va)];//由10位页目录项索引找到对应的页目录项
+  if (*pde & PTE_P) { //该页目录项不为空且该页在内存中
+    pgtab = (PTE *)PTE_ADDR(*pde);//根据页目录项中20位基地址指出的页表首地址找到对应页表的基地址
   } else {
-    pgtab = (PTE *)palloc_f();
-    for (int i = 0; i < NR_PTE; i ++) {
+    pgtab = (PTE *)palloc_f();//申请一张页表
+    for (int i = 0; i < NR_PTE; i ++) {//初始化每个页表项
       pgtab[i] = 0;
     }
-    *pde = PTE_ADDR(pgtab) | PTE_P;
+    *pde = PTE_ADDR(pgtab) | PTE_P;//设置好新的页目录项（修改present位就行）
   }
-  pgtab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
+  //将传入的物理地址组合present位，形成一个页表项，存入选中的页表项，pa的地址的前20位加上0x001
+  pgtab[PTX(va)] = PTE_ADDR(pa) | PTE_P;  
 }
 
 

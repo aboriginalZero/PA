@@ -36,7 +36,7 @@ _RegSet* schedule(_RegSet *prev) {
    current =&pcb[0];
    current=(current==&pcb[0] ?&pcb[1]:&pcb[0]);
   count++;
-  if(count%1==0){
+  if(count%10000==0){
     current=&pcb[1];
   }else{
     current=&pcb[0];
